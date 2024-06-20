@@ -1,0 +1,9 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  background-image: url("https://files.oaiusercontent.com/file-YipOFRQT7bG1LmVtGZ7LYvb5?se=2024-06-20T17%3A16%3A22Z&sp=r&sv=2023-11-03&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D53761137-c2a0-4cd0-8e24-d5c1385147f1.webp&sig=0hKYV6Kj2IuuKlSlRt%2B5ITZJX5wwCIQceaxjtrqxYe4%3D");
+}
