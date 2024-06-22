@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
+declare global {
+  interface Window {
+    require: any;
+    process: any;
+  }
+}
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -9,7 +16,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class HeaderComponent {
   @Output() refreshPage = new EventEmitter<void>();
+
   onRefreshPage() {
-    this.refreshPage.emit();
+    if (window && window.process && window.process.type) {
+      const electron = window.require('electron');
+      electron.remote.getCurrentWindow().reload();
+    } else {
+      this.refreshPage.emit();
+    }
   }
 }
