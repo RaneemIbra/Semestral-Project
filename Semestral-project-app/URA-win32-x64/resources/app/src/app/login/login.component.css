@@ -35,14 +35,14 @@ body {
   max-width: 100%;
   min-height: 480px;
   margin: auto auto;
-  margin-top: 200px;
+  margin-top: 100px; /* Adjusted margin to fit content better */
 }
 
 .container p {
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  margin: 20px 0;
+  margin: 10px 0; /* Reduced margin */
 }
 
 .container span {
@@ -53,7 +53,7 @@ body {
   color: #333;
   font-size: 13px;
   text-decoration: none;
-  margin: 15px 0 10px;
+  margin: 10px 0; /* Reduced margin */
 }
 
 .container button {
@@ -81,14 +81,14 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
-  height: 100%;
+  padding: 0px 50px; /* Reduced padding */
+  height: calc(100% - 15vh); /* Adjusted height to fit button */
 }
 
 .container input {
   background-color: #eee;
   border: none;
-  margin: 8px 0;
+  margin: 5px 0; /* Reduced margin */
   padding: 10px 15px;
   font-size: 13px;
   border-radius: 8px;
@@ -141,7 +141,7 @@ body {
 }
 
 .social-icons {
-  margin: 20px 0;
+  margin: 10px 0; /* Reduced margin */
 }
 
 .social-icons a {
@@ -151,8 +151,8 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0 3px;
-  width: 40px;
-  height: 40px;
+  width: 30px; /* Reduced size */
+  height: 30px; /* Reduced size */
 }
 
 .toggle-container {
@@ -197,7 +197,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 30px;
+  padding: 0 20px; /* Reduced padding */
   text-align: center;
   top: 0;
   transform: translateX(0);
@@ -222,5 +222,10 @@ body {
 }
 
 .Sign-in-text {
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduced margin */
+}
+
+.Sign {
+  margin-left: 8vw;
+  margin-top: 0;
 }

@@ -1,5 +1,5 @@
 .header {
-  height: 7vh;
+  height: 8vh;
   width: 100vw;
   background: transparent;
   backdrop-filter: blur(40px);
@@ -15,14 +15,14 @@
 }
 
 .logo-label {
-  height: 80px;
-  width: 220px;
+  height: 50px;
+  width: 50px;
   margin-top: 0;
 }
 
 .left-section {
   margin-top: 1vh;
-  margin-left: 1vw;
+  margin-left: 2vw;
   display: flex;
   padding: 0;
 }
@@ -114,6 +114,7 @@
   text-decoration: none;
   color: #7c859f;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .header-links:hover {

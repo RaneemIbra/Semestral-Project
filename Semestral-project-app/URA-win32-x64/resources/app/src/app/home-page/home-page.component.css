@@ -1,9 +1,87 @@
 .background {
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   background-position: center;
   background-size: cover;
   margin: 0;
   padding: 0;
-  background-image: url("https://files.oaiusercontent.com/file-YipOFRQT7bG1LmVtGZ7LYvb5?se=2024-06-20T17%3A16%3A22Z&sp=r&sv=2023-11-03&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D53761137-c2a0-4cd0-8e24-d5c1385147f1.webp&sig=0hKYV6Kj2IuuKlSlRt%2B5ITZJX5wwCIQceaxjtrqxYe4%3D");
+  background-image: url("https://img.freepik.com/free-vector/paper-style-white-monochrome-background_23-2149020296.jpg?w=1060&t=st=1718891289~exp=1718891889~hmac=3a356f50a69e9386f077e3401e45eb85ddcff839ccfdf6106ef29d96c7ffa54e");
+}
+
+.boxes {
+  margin: auto auto;
+  height: 70vh;
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10vw;
+  overflow: hidden;
+  padding: 0;
+}
+
+.container {
+  margin-top: 30vh;
+  height: 50vh;
+  width: 60vw;
+  overflow: hidden;
+}
+
+.left-box {
+  background-color: red;
+  height: 20vh;
+  width: 20vw;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://horizonvets.com/wp-content/uploads/2019/10/placeholder.png");
+}
+
+.mid-box {
+  background-color: green;
+  height: 20vh;
+  width: 20vw;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://horizonvets.com/wp-content/uploads/2019/10/placeholder.png");
+}
+
+.right-box {
+  background-color: blue;
+  height: 20vh;
+  width: 20vw;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://horizonvets.com/wp-content/uploads/2019/10/placeholder.png");
+}
+
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(-100%);
+  transition: all 2s;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: all 1s;
+}
+
+.show:nth-child(1) {
+  transition-delay: 200ms;
+}
+
+.show:nth-child(2) {
+  transition-delay: 400ms;
+}
+
+.show:nth-child(3) {
+  transition-delay: 600ms;
+}
+
+.separator {
+  height: 5vh;
+  width: 100vw;
+  background-color: black;
 }
