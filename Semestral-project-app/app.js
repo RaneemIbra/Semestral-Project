@@ -15,27 +15,32 @@ function createWindow() {
     },
   });
 
-  win.loadURL(
-    url.format({
-      pathname: path.join(
-        __dirname,
-        "dist/semestral-project-app/browser/index.html"
-      ),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  // Correct the path to the index.csr.html file using URL.format
+  const startFile = url.format({
+    pathname: path.join(
+      __dirname,
+      "dist",
+      "semestral-project-app",
+      "browser",
+      "index.csr.html"
+    ),
+    protocol: "file:",
+    slashes: true,
+  });
+  console.log("Loading file:", startFile); // Add this line for debugging
+
+  win.loadURL(startFile).catch((err) => {
+    console.error("Failed to load file:", err);
+  });
 
   win.webContents.on("did-finish-load", () => {
     win.webContents
       .executeJavaScript(
-        `
-      new Promise((resolve) => {
-        const width = document.documentElement.scrollWidth;
-        const height = document.documentElement.scrollHeight;
-        resolve({ width, height });
-      });
-    `
+        `new Promise((resolve) => {
+          const width = document.documentElement.scrollWidth;
+          const height = document.documentElement.scrollHeight;
+          resolve({ width, height });
+        })`
       )
       .then((size) => {
         win.setContentSize(size.width, size.height);

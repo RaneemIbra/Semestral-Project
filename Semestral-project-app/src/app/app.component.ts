@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouterOutlet, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderComponent } from './header/header.component';
@@ -7,12 +8,24 @@ import { HeaderComponent } from './header/header.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginComponent, HomePageComponent, HeaderComponent],
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    LoginComponent,
+    HomePageComponent,
+    HeaderComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Semestral-project-app';
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.router.navigate(['/login']);
+  }
 
   refreshPage() {
     window.location.reload();

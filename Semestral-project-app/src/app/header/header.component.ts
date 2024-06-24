@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 declare global {
   interface Window {
@@ -10,7 +11,7 @@ declare global {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
