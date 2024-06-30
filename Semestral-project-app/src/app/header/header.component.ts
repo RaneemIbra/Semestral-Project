@@ -19,11 +19,6 @@ export class HeaderComponent {
   @Output() refreshPage = new EventEmitter<void>();
 
   onRefreshPage() {
-    if (window && window.process && window.process.type) {
-      const electron = window.require('electron');
-      electron.remote.getCurrentWindow().reload();
-    } else {
-      this.refreshPage.emit();
-    }
+    this.refreshPage.emit();
   }
 }

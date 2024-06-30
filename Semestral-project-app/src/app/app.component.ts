@@ -18,14 +18,8 @@ import { HeaderComponent } from './header/header.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Semestral-project-app';
-
-  constructor(private router: Router) {}
-
-  ngOnInit() {
-    this.router.navigate(['/login']);
-  }
 
   refreshPage() {
     window.location.reload();
