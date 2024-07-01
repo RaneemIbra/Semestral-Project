@@ -1,31 +1,33 @@
-.background {
-  width: 100vw;
-  height: 200vh;
+.background{
+  display: flex;
+}
+
+.background1 {
+  width: 50vw;
+  height: 100vh;
+  background-position: center;
+  background-size: 50vw 100vh;
+  margin: 0;
+  padding: 0;
+  background-image: url("../../assets/image.png");
+}
+
+.background2 {
+  width: 50vw;
+  height: 100vh;
   background-position: center;
   background-size: cover;
   margin: 0;
   padding: 0;
-  background-image: url("https://img.freepik.com/free-vector/paper-style-white-monochrome-background_23-2149020296.jpg?w=1060&t=st=1718891289~exp=1718891889~hmac=3a356f50a69e9386f077e3401e45eb85ddcff839ccfdf6106ef29d96c7ffa54e");
+  background-image: url(../../assets/secondhalf.png);
 }
 
-.boxes {
-  margin: auto auto;
-  height: 70vh;
-  width: 80vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10vw;
-  overflow: hidden;
-  padding: 0;
+.header-text{
+  color: white;
+  margin-top: 20vh;
+  margin-left: 2vw;
 }
 
-.container {
-  margin-top: 30vh;
-  height: 50vh;
-  width: 60vw;
-  overflow: hidden;
-}
 
 .left-box {
   background-color: red;

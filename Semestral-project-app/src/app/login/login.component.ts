@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,11 @@ import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements AfterViewInit {
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef, private renderer: Renderer2, private router: Router) {}
+
+  onSignIn() {
+    this.router.navigate(['/home']);
+  }
 
   ngAfterViewInit() {
     const container = this.el.nativeElement.querySelector('#container');
