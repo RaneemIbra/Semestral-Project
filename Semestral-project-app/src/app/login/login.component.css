@@ -22,7 +22,7 @@ body {
   background-size: cover;
   margin: 0;
   padding: 0;
-  background-image: url("https://img.freepik.com/free-vector/paper-style-white-monochrome-background_23-2149020296.jpg?w=1060&t=st=1718891289~exp=1718891889~hmac=3a356f50a69e9386f077e3401e45eb85ddcff839ccfdf6106ef29d96c7ffa54e");
+  background-image: url("../../assets/image.png");
 }
 
 .container {
@@ -35,7 +35,7 @@ body {
   max-width: 100%;
   min-height: 480px;
   margin: auto auto;
-  margin-top: 100px; /* Adjusted margin to fit content better */
+  margin-top: 200px; /* Adjusted margin to fit content better */
 }
 
 .container p {
