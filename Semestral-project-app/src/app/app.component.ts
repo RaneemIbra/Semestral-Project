@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { FAQComponent } from './faq/faq.component';
+import { CourseComponent } from './course/course.component';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ import { FAQComponent } from './faq/faq.component';
     HeaderComponent,
     CoursesPageComponent,
     DiscussionComponent,
-    FAQComponent
+    FAQComponent,
+    CourseComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -34,11 +36,16 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.showHeader = event.urlAfterRedirects !== '/login';
-    });
+    this.router.events
+      .pipe(
+        filter(
+          (event: Event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        this.showHeader = event.urlAfterRedirects !== '/login';
+      });
   }
 
   refreshPage() {
