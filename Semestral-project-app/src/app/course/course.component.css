@@ -8,6 +8,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover; /* Ensures the image covers the div without distortion */
+  display: block;
+  cursor: pointer;
 }
 
 .course .title {

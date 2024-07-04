@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { FAQComponent } from './faq/faq.component';
+import { CoursePreviewComponent } from './course-preview/course-preview.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: 'courses', component: CoursesPageComponent },
   { path: 'discussion', component: DiscussionComponent },
   { path: 'FAQ', component: FAQComponent },
+  { path: 'preview/:title', component: CoursePreviewComponent },
 ];

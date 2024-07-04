@@ -13,6 +13,27 @@
           [imageSrc]="course.imageSrc"
           [title]="course.title"
           [cssClass]="course.cssClass"
+          class="course"
+          (imageClick)="navigateToPreview(course)"
+        ></app-course>
+      </div>
+      <div class="courseContainer">
+        <app-course
+          *ngFor="let course of courses"
+          [imageSrc]="course.imageSrc"
+          [title]="course.title"
+          [cssClass]="course.cssClass"
+          class="course"
+          (imageClick)="navigateToPreview(course)"
+        ></app-course>
+      </div>
+      <div class="courseContainer">
+        <app-course
+          *ngFor="let course of courses"
+          [imageSrc]="course.imageSrc"
+          [title]="course.title"
+          [cssClass]="course.cssClass"
+          class="course"
         ></app-course>
       </div>
     </div>
