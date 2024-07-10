@@ -20,17 +20,17 @@ export class CoursesPageComponent {
 
   courses: Course[] = [
     {
-      imageSrc: '../../assets/ML.jpg',
+      imageSrc: '../../assets/ML.webp',
       title: 'Machine-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/deep.jpg',
+      imageSrc: '../../assets/DL.webp',
       title: 'Deep-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/algorithms.png',
+      imageSrc: '../../assets/algo.webp',
       title: 'Algorithms',
       cssClass: 'CourseClass',
     },
@@ -38,17 +38,17 @@ export class CoursesPageComponent {
 
   courses2: Course[] = [
     {
-      imageSrc: '../../assets/ML.jpg',
+      imageSrc: '../../assets/CM.webp',
       title: 'Machine-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/deep.jpg',
+      imageSrc: '../../assets/AI.webp',
       title: 'Deep-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/algorithms.png',
+      imageSrc: '../../assets/DS.webp',
       title: 'Algorithms',
       cssClass: 'CourseClass',
     },
@@ -56,17 +56,35 @@ export class CoursesPageComponent {
 
   courses3: Course[] = [
     {
-      imageSrc: '../../assets/ML.jpg',
+      imageSrc: '../../assets/OS.webp',
       title: 'Machine-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/deep.jpg',
+      imageSrc: '../../assets/SWE.webp',
       title: 'Deep-Learning',
       cssClass: 'CourseClass',
     },
     {
-      imageSrc: '../../assets/algorithms.png',
+      imageSrc: '../../assets/DM.webp',
+      title: 'Algorithms',
+      cssClass: 'CourseClass',
+    },
+  ];
+
+  courses4: Course[] = [
+    {
+      imageSrc: '../../assets/calc.webp',
+      title: 'Machine-Learning',
+      cssClass: 'CourseClass',
+    },
+    {
+      imageSrc: '../../assets/algebra.webp',
+      title: 'Deep-Learning',
+      cssClass: 'CourseClass',
+    },
+    {
+      imageSrc: '../../assets/prob.webp',
       title: 'Algorithms',
       cssClass: 'CourseClass',
     },

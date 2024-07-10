@@ -7,6 +7,7 @@
   </head>
   <body>
     <div class="background">
+      <h1 class="header">Courses</h1>
       <div class="courseContainer">
         <app-course
           *ngFor="let course of courses"
@@ -19,7 +20,7 @@
       </div>
       <div class="courseContainer">
         <app-course
-          *ngFor="let course of courses"
+          *ngFor="let course of courses2"
           [imageSrc]="course.imageSrc"
           [title]="course.title"
           [cssClass]="course.cssClass"
@@ -29,7 +30,16 @@
       </div>
       <div class="courseContainer">
         <app-course
-          *ngFor="let course of courses"
+          *ngFor="let course of courses3"
+          [imageSrc]="course.imageSrc"
+          [title]="course.title"
+          [cssClass]="course.cssClass"
+          class="course"
+        ></app-course>
+      </div>
+      <div class="courseContainer">
+        <app-course
+          *ngFor="let course of courses4"
           [imageSrc]="course.imageSrc"
           [title]="course.title"
           [cssClass]="course.cssClass"

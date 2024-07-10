@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
 .background {
   width: 100vw;
   height: 100vh;
@@ -5,5 +7,86 @@
   background-size: cover;
   margin: 0;
   padding: 0;
-  background-image: url("../../assets/light-gray-abstract-background.jpg");
+  background-image: url("../../assets/8406764.gif");
+}
+
+.header {
+  margin-top: 10vh;
+  margin-left: 37vw;
+  color: white;
+}
+
+.questions {
+  width: 300px;
+  position: absolute;
+  left: 50%;
+  margin-top: 25px;
+  margin-left: -150px;
+  overflow: hidden;
+}
+
+.questions > div {
+  position: relative;
+  display: block;
+  border: 1px solid hotpink;
+  margin-bottom: 5px;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  animation: fadeIn 0.5s linear;
+  animation-fill-mode: both;
+}
+
+/* Set delay per question div */
+.questions > div:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.questions > div:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.questions > div:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.questions > div:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.questions > div:nth-child(5) {
+  animation-delay: 1s;
+}
+
+.questions > div:nth-child(6) {
+  animation-delay: 1.25s;
+}
+
+/* Keyframe animation */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    top: 100px;
+  }
+  75% {
+    opacity: 0.5;
+    top: 0px;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    top: 100px;
+  }
+  75% {
+    opacity: 0.5;
+    top: 0px;
+  }
+  100% {
+    opacity: 1;
+  }
 }
