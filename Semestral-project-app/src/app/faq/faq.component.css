@@ -1,40 +1,73 @@
 @import url(https://fonts.googleapis.com/css?family=Lato);
 
-.background {
-  width: 100vw;
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
+body {
   margin: 0;
   padding: 0;
-  background-image: url("../../assets/8406764.gif");
+  font-family: "Lato", sans-serif;
+  background: url("../../assets/8406764.gif") center center/cover no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-y: hidden;
+}
+
+.background {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  margin-top: 13vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .header {
-  margin-top: 10vh;
-  margin-left: 37vw;
+  margin-bottom: 5vh;
   color: white;
 }
 
-.questions {
-  width: 300px;
-  position: absolute;
-  left: 50%;
-  margin-top: 25px;
-  margin-left: -150px;
-  overflow: hidden;
+.question {
+  color: hotpink;
 }
 
-.questions > div {
+.answer {
+  color: whitesmoke;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.questions {
+  width: 60vw;
+  position: absolute;
+  left: 30%;
+  margin-top: 7vh;
+  margin-left: -150px;
+  overflow: hidden;
+  padding: 10px;
+  overflow: visible;
+}
+
+.qdiv {
   position: relative;
   display: block;
-  border: 1px solid hotpink;
-  margin-bottom: 5px;
+  border: 3px solid deeppink;
+  margin-bottom: 20px;
   padding: 10px;
   text-align: center;
   text-transform: uppercase;
   animation: fadeIn 0.5s linear;
   animation-fill-mode: both;
+  transition: transform 0.3s ease-in-out;
+}
+
+.qdiv:hover {
+  transform: scale(1.1);
+}
+
+.qdiv:hover .answer {
+  max-height: 200px;
+  opacity: 1;
 }
 
 /* Set delay per question div */
@@ -60,6 +93,22 @@
 
 .questions > div:nth-child(6) {
   animation-delay: 1.25s;
+}
+
+.questions > div:nth-child(7) {
+  animation-delay: 1.5s;
+}
+
+.questions > div:nth-child(8) {
+  animation-delay: 1.75s;
+}
+
+.questions > div:nth-child(9) {
+  animation-delay: 2s;
+}
+
+.questions > div:nth-child(10) {
+  animation-delay: 2.25s;
 }
 
 /* Keyframe animation */
