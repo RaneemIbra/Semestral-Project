@@ -59,6 +59,7 @@ body {
   animation: fadeIn 0.5s linear;
   animation-fill-mode: both;
   transition: transform 0.3s ease-in-out;
+  backdrop-filter: blur(20px);
 }
 
 .qdiv:hover {
