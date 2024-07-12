@@ -10,6 +10,7 @@ import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { FAQComponent } from './faq/faq.component';
 import { CourseComponent } from './course/course.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ import { CourseComponent } from './course/course.component';
     DiscussionComponent,
     FAQComponent,
     CourseComponent,
+    ContactUsComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

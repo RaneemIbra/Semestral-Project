@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="background hidden">
+      <h1 class="header-text">Connect with us</h1>
+      <h3 class="opening-pg">
+        If you have any questions, please feel free to reach out to us. We're
+        here to help!
+      </h3>
+
+      <div class="contact-form">
+        <h2>Send Us a Message</h2>
+        <form action="/submit-form" method="POST">
+          <label for="name" class="form-text">Name:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email" class="form-text">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="subject" class="form-text">Subject:</label>
+          <input type="text" id="subject" name="subject" required />
+
+          <label for="message" class="form-text">Message:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <h3 style="color: white; margin-bottom: 2vh">
+        For other ways to contact us, please refer to one of the following
+        platforms
+      </h3>
+      <div class="icons">
+        <a href="https://github.com/RaneemIbra" class="icon" target="_blank"
+          ><i class="fa-brands fa-github"></i
+        ></a>
+        <a
+          href="https://www.linkedin.com/in/raneem-ibraheem-b82b24297/"
+          class="icon"
+          target="_blank"
+          ><i class="fa-brands fa-linkedin"></i
+        ></a>
+        <a
+          href="https://www.instagram.com/rneemebraheem/"
+          class="icon"
+          target="_blank"
+          ><i class="fa-brands fa-instagram"></i
+        ></a>
+      </div>
+      <h3 style="color: white; margin-top: 1vh">For business inquires:</h3>
+      <a style="color: white; margin-top: 1vh">R_contactUs&#64;gmail.com</a>
+    </div>
+  </body>
+</html>
