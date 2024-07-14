@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { CoursesPageComponent } from './courses-page/courses-page.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { FAQComponent } from './faq/faq.component';
-import { CoursePreviewComponent } from './course-preview/course-preview.component';
+import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 
 export const routes: Routes = [

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Course } from '../course/course.model';
-import { CourseComponent } from '../course/course.component';
+import { Course } from './course/course.model';
+import { CourseComponent } from './course/course.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
