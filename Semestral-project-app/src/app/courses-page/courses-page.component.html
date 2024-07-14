@@ -1,51 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="background">
-      <h1 class="header">Courses</h1>
-      <div class="courseContainer">
-        <app-course
-          *ngFor="let course of courses"
-          [imageSrc]="course.imageSrc"
-          [title]="course.title"
-          [cssClass]="course.cssClass"
-          class="course"
-          (imageClick)="navigateToPreview(course)"
-        ></app-course>
-      </div>
-      <div class="courseContainer">
-        <app-course
-          *ngFor="let course of courses2"
-          [imageSrc]="course.imageSrc"
-          [title]="course.title"
-          [cssClass]="course.cssClass"
-          class="course"
-          (imageClick)="navigateToPreview(course)"
-        ></app-course>
-      </div>
-      <div class="courseContainer">
-        <app-course
-          *ngFor="let course of courses3"
-          [imageSrc]="course.imageSrc"
-          [title]="course.title"
-          [cssClass]="course.cssClass"
-          class="course"
-        ></app-course>
-      </div>
-      <div class="courseContainer">
-        <app-course
-          *ngFor="let course of courses4"
-          [imageSrc]="course.imageSrc"
-          [title]="course.title"
-          [cssClass]="course.cssClass"
-          class="course"
-        ></app-course>
-      </div>
-    </div>
-  </body>
-</html>
+<div class="background">
+  <h1 class="header">Courses</h1>
+  <div class="courseContainer">
+    <app-course
+      *ngFor="let course of courses"
+      [imageSrc]="course.imageSrc"
+      [title]="course.title"
+      [cssClass]="course.cssClass"
+      class="course"
+      (imageClick)="navigateToPreview(course)"
+    ></app-course>
+  </div>
+  <div class="courseContainer">
+    <app-course
+      *ngFor="let course of courses2"
+      [imageSrc]="course.imageSrc"
+      [title]="course.title"
+      [cssClass]="course.cssClass"
+      class="course"
+      (imageClick)="navigateToPreview(course)"
+    ></app-course>
+  </div>
+  <div class="courseContainer">
+    <app-course
+      *ngFor="let course of courses3"
+      [imageSrc]="course.imageSrc"
+      [title]="course.title"
+      [cssClass]="course.cssClass"
+      class="course"
+    ></app-course>
+  </div>
+  <div class="courseContainer">
+    <app-course
+      *ngFor="let course of courses4"
+      [imageSrc]="course.imageSrc"
+      [title]="course.title"
+      [cssClass]="course.cssClass"
+      class="course"
+    ></app-course>
+  </div>
+</div>

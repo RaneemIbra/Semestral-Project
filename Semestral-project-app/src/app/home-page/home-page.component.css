@@ -1,33 +1,16 @@
-.background{
+.background {
+  display: flex;
+  background-image: url("../../assets/8406764.gif");
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
 }
 
-.background1 {
-  width: 50vw;
-  height: 100vh;
-  background-position: center;
-  background-size: 50vw 100vh;
-  margin: 0;
-  padding: 0;
-  background-image: url("../../assets/firsthalf.png");
-}
-
-.background2 {
-  width: 50vw;
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
-  margin: 0;
-  padding: 0;
-  background-image: url(../../assets/secondhalf.png);
-}
-
-.header-text{
+.header-text {
   color: white;
   margin-top: 20vh;
   margin-left: 2vw;
 }
-
 
 .left-box {
   background-color: red;
