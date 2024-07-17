@@ -2,7 +2,7 @@
   height: 8vh;
   width: 100vw;
   background: transparent;
-  backdrop-filter: blur(40px);
+  backdrop-filter: blur(50px);
   display: flex;
   border: solid 1px;
   padding: 0;
