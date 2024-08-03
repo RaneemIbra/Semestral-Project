@@ -1,8 +1,10 @@
 <div class="background">
-  <app-course
-    *ngIf="course"
-    [imageSrc]="course?.imageSrc"
-    [title]="course?.title"
-    [cssClass]="course?.cssClass"
-  ></app-course>
+  <div class="preview">
+    <app-course
+      *ngIf="course"
+      [imageSrc]="course.imageSrc"
+      [title]="course.title"
+      [cssClass]="course.cssClass"
+    ></app-course>
+  </div>
 </div>

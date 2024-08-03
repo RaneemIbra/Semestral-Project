@@ -12,13 +12,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './course-preview.component.css',
 })
 export class CoursePreviewComponent implements OnInit {
-  course?: Course;
+  course?: Course | null = null;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const title = params.get('title');
+      console.log('Title from params:', title);
       if (title) {
         this.loadCourse(title);
       }
@@ -30,6 +31,7 @@ export class CoursePreviewComponent implements OnInit {
     const foundCourse = allCourses.find((course) => course.title === title);
     if (foundCourse) {
       this.course = foundCourse;
+      console.log('Found course:', this.course);
     } else {
       console.error('Course not found');
     }

@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-course',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
 })
@@ -15,6 +16,6 @@ export class CourseComponent {
 
   onImageClick(): void {
     this.imageClick.emit();
-    console.log('heloo');
+    console.log('helooo');
   }
 }
