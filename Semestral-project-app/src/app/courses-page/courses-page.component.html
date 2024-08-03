@@ -27,6 +27,7 @@
       [title]="course.title"
       [cssClass]="course.cssClass"
       class="course"
+      (imageClick)="navigateToPreview(course)"
     ></app-course>
   </div>
   <div class="courseContainer">
@@ -36,6 +37,7 @@
       [title]="course.title"
       [cssClass]="course.cssClass"
       class="course"
+      (imageClick)="navigateToPreview(course)"
     ></app-course>
   </div>
 </div>

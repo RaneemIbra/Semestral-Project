@@ -27,7 +27,12 @@ export class CoursePreviewComponent implements OnInit {
   }
 
   loadCourse(title: string): void {
-    const allCourses = [...this.courses, ...this.courses2, ...this.courses3];
+    const allCourses = [
+      ...this.courses,
+      ...this.courses2,
+      ...this.courses3,
+      ...this.courses4,
+    ];
     const foundCourse = allCourses.find((course) => course.title === title);
     if (foundCourse) {
       this.course = foundCourse;
@@ -58,17 +63,17 @@ export class CoursePreviewComponent implements OnInit {
   courses2: Course[] = [
     {
       imageSrc: '../../assets/CM.webp',
-      title: 'Machine-Learning',
+      title: 'Computational-Models',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/AI.webp',
-      title: 'Deep-Learning',
+      title: 'Artificial-Inteligence',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/DS.webp',
-      title: 'Algorithms',
+      title: 'Data-Structures',
       cssClass: 'CourseClass',
     },
   ];
@@ -76,17 +81,17 @@ export class CoursePreviewComponent implements OnInit {
   courses3: Course[] = [
     {
       imageSrc: '../../assets/OS.webp',
-      title: 'Machine-Learning',
+      title: 'Operating-Systems',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/SWE.webp',
-      title: 'Deep-Learning',
+      title: 'Software-Engineering',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/DM.webp',
-      title: 'Algorithms',
+      title: 'Discrete-Mathematics',
       cssClass: 'CourseClass',
     },
   ];
@@ -94,17 +99,17 @@ export class CoursePreviewComponent implements OnInit {
   courses4: Course[] = [
     {
       imageSrc: '../../assets/calc.webp',
-      title: 'Machine-Learning',
+      title: 'Calculus',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/algebra.webp',
-      title: 'Deep-Learning',
+      title: 'Algebra',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/prob.webp',
-      title: 'Algorithms',
+      title: 'Probability-Theory',
       cssClass: 'CourseClass',
     },
   ];

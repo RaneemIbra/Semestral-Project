@@ -39,17 +39,17 @@ export class CoursesPageComponent {
   courses2: Course[] = [
     {
       imageSrc: '../../assets/CM.webp',
-      title: 'Machine-Learning',
+      title: 'Computational-Models',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/AI.webp',
-      title: 'Deep-Learning',
+      title: 'Artificial-Inteligence',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/DS.webp',
-      title: 'Algorithms',
+      title: 'Data-Structures',
       cssClass: 'CourseClass',
     },
   ];
@@ -57,17 +57,17 @@ export class CoursesPageComponent {
   courses3: Course[] = [
     {
       imageSrc: '../../assets/OS.webp',
-      title: 'Machine-Learning',
+      title: 'Operating-Systems',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/SWE.webp',
-      title: 'Deep-Learning',
+      title: 'Software-Engineering',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/DM.webp',
-      title: 'Algorithms',
+      title: 'Discrete-Mathematics',
       cssClass: 'CourseClass',
     },
   ];
@@ -75,17 +75,17 @@ export class CoursesPageComponent {
   courses4: Course[] = [
     {
       imageSrc: '../../assets/calc.webp',
-      title: 'Machine-Learning',
+      title: 'Calculus',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/algebra.webp',
-      title: 'Deep-Learning',
+      title: 'Algebra',
       cssClass: 'CourseClass',
     },
     {
       imageSrc: '../../assets/prob.webp',
-      title: 'Algorithms',
+      title: 'Probability-Theory',
       cssClass: 'CourseClass',
     },
   ];
