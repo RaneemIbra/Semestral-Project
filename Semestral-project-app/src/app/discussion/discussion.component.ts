@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-discussion',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './discussion.component.html',
-  styleUrl: './discussion.component.css'
+  styleUrl: './discussion.component.css',
 })
-export class DiscussionComponent {
-
-}
+export class DiscussionComponent {}

@@ -6,4 +6,50 @@
   margin: 0;
   padding: 0;
   background-image: url("../../assets/8406764.gif");
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center;
+}
+
+.title {
+  color: white;
+  margin-top: 12vh;
+}
+
+.div-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.div-container div {
+  background-color: #fa1e4e;
+  border-radius: 30px;
+  box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset,
+    rgba(255, 255, 255, 0.15) 0px -36px 30px 0px inset,
+    rgba(255, 255, 255, 0.1) 0px -79px 40px 0px inset,
+    rgba(255, 255, 255, 0.06) 0px 2px 1px, rgba(255, 255, 255, 0.09) 0px 4px 2px,
+    rgba(255, 255, 255, 0.09) 0px 8px 4px,
+    rgba(255, 255, 255, 0.09) 0px 16px 8px,
+    rgba(255, 255, 255, 0.09) 0px 32px 16px;
+  cursor: pointer;
+  height: 30vh;
+  width: 30%;
+  margin: 2.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.community-title {
+  color: white;
+}
+
+.icon {
+  font-size: 37px;
+  color: white;
+  margin-top: 4vh;
 }

@@ -6,6 +6,7 @@ import { DiscussionComponent } from './discussion/discussion.component';
 import { FAQComponent } from './faq/faq.component';
 import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { DiscussionPreviewComponent } from './discussion/discussion-preview/discussion-preview.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,4 +17,5 @@ export const routes: Routes = [
   { path: 'FAQ', component: FAQComponent },
   { path: 'preview/:title', component: CoursePreviewComponent },
   { path: 'contactUs', component: ContactUsComponent },
+  { path: 'genDiscussion', component: DiscussionPreviewComponent },
 ];

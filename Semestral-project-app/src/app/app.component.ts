@@ -12,6 +12,7 @@ import { FAQComponent } from './faq/faq.component';
 import { CourseComponent } from './courses-page/course/course.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
+import { DiscussionPreviewComponent } from './discussion/discussion-preview/discussion-preview.component';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,7 @@ import { CoursePreviewComponent } from './courses-page/course-preview/course-pre
     CourseComponent,
     ContactUsComponent,
     CoursePreviewComponent,
+    DiscussionPreviewComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
