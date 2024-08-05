@@ -1,27 +1,18 @@
-@import url(https://fonts.googleapis.com/css?family=Lato);
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Lato", sans-serif;
-  background: url("../../assets/8406764.gif") center center/cover no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh;
-  overflow-y: hidden;
-}
+@import url("https://fonts.googleapis.com/css?family=Lato");
 
 .background {
   width: 100vw;
   min-height: 100vh;
   display: flex;
-  margin-top: 13vh;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-top: 13vh;
+  background: url("../../assets/8406764.gif");
 }
 
 .header {
-  margin-bottom: 5vh;
+  margin-bottom: 3vh;
   color: white;
 }
 
@@ -39,19 +30,16 @@ body {
 
 .questions {
   width: 60vw;
-  position: absolute;
-  left: 30%;
-  margin-top: 7vh;
-  margin-left: -150px;
+  position: relative;
+  margin-top: 2vh;
   overflow: hidden;
   padding: 10px;
   overflow: visible;
 }
 
 .qdiv {
-  position: relative;
-  display: block;
   border: 3px solid #fa1e4e;
+  border-radius: 10px;
   margin-bottom: 20px;
   padding: 10px;
   text-align: center;
@@ -71,7 +59,6 @@ body {
   opacity: 1;
 }
 
-/* Set delay per question div */
 .questions > div:nth-child(1) {
   animation-delay: 0.2s;
 }
@@ -139,4 +126,8 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+.last {
+  margin-bottom: 15vh;
 }
