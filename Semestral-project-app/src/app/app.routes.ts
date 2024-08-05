@@ -17,5 +17,5 @@ export const routes: Routes = [
   { path: 'FAQ', component: FAQComponent },
   { path: 'preview/:title', component: CoursePreviewComponent },
   { path: 'contactUs', component: ContactUsComponent },
-  { path: 'genDiscussion', component: DiscussionPreviewComponent },
+  { path: 'discussionPreview/:title', component: DiscussionPreviewComponent },
 ];

@@ -1,19 +1,25 @@
 <div class="background">
   <h1 class="title">Discussion Communities</h1>
   <div class="div-container">
-    <div class="community1" routerLink="/genDiscussion">
+    <div class="community1" (click)="navigateToPreview('General Discussion')">
       <h1 class="community-title">General Discussion</h1>
       <i class="fa-solid fa-comments fa-fade icon"></i>
     </div>
-    <div class="community2" routerLink="/genDiscussion">
+    <div
+      class="community2"
+      (click)="navigateToPreview('General Courses Discussion')"
+    >
       <h1 class="community-title">General Courses Discussion</h1>
       <i class="fa-solid fa-book fa-fade icon"></i>
     </div>
-    <div class="community3" routerLink="/genDiscussion">
+    <div class="community3" (click)="navigateToPreview('Community Discussion')">
       <h1 class="community-title">Community Discussion</h1>
       <i class="fa-solid fa-users fa-fade icon"></i>
     </div>
-    <div class="community4" routerLink="/genDiscussion">
+    <div
+      class="community4"
+      (click)="navigateToPreview('University Discussion')"
+    >
       <h1 class="community-title">University Discussion</h1>
       <i class="fa-solid fa-building-columns fa-fade icon"></i>
     </div>
