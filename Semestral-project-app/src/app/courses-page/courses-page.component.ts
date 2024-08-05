@@ -17,6 +17,20 @@ export class CoursesPageComponent {
   navigateToPreview(course: Course): void {
     this.router.navigate(['/preview', course.title]);
   }
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
+        }
+      });
+    });
+
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+  }
 
   courses: Course[] = [
     {
