@@ -3,6 +3,7 @@ import { Course } from '../course/course.model';
 import { ActivatedRoute } from '@angular/router';
 import { CourseComponent } from '../course/course.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-preview',
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
 export class CoursePreviewComponent implements OnInit {
   course?: Course | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -24,6 +25,12 @@ export class CoursePreviewComponent implements OnInit {
         this.loadCourse(title);
       }
     });
+  }
+
+  navigateToDiscussion(title: string | undefined): void {
+    if (title) {
+      this.router.navigate(['/discussionPreview', title]);
+    }
   }
 
   loadCourse(title: string): void {

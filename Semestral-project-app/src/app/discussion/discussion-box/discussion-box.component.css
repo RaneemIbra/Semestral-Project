@@ -1,7 +1,25 @@
 .discussion-box {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
+  background-color: transparent;
+  border: solid 2px #fa1e4e;
   border-radius: 10px;
-  margin: 20px;
+  margin-top: 5vh;
+  margin-bottom: 6vh;
   text-align: center;
+  width: 94vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.move {
+  background-color: #fa1e4e;
+  height: 10vh;
+  width: 10vh;
+  position: absolute;
+  cursor: grab;
+  border-radius: 5px;
 }
