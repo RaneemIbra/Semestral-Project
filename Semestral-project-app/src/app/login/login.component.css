@@ -5,16 +5,6 @@
   font-family: "Montserrat", sans-serif;
 }
 
-body {
-  background-color: #c9d6ff;
-  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .background {
   width: 100vw;
   height: 100vh;
@@ -22,11 +12,11 @@ body {
   background-size: cover;
   margin: 0;
   padding: 0;
-  background-image: url("../../assets/image.png");
+  background-image: url("../../assets/8406764.gif");
 }
 
 .container {
-  background-color: #fff;
+  background-color: white;
   border-radius: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   position: relative;
@@ -76,13 +66,14 @@ body {
 }
 
 .container form {
-  background-color: #fff;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 0px 50px; /* Reduced padding */
   height: calc(100% - 15vh); /* Adjusted height to fit button */
+  backdrop-filter: blur(20px);
 }
 
 .container input {
@@ -173,9 +164,8 @@ body {
 }
 
 .toggle {
-  background-color: #512da8;
+  background-color: #fa1e4e;
   height: 100%;
-  background: linear-gradient(to right, #7e5e4b, #d7a073);
   color: #fff;
   position: relative;
   left: -100%;
