@@ -7,6 +7,7 @@ import { FAQComponent } from './faq/faq.component';
 import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { DiscussionPreviewComponent } from './discussion/discussion-preview/discussion-preview.component';
+import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,4 +19,5 @@ export const routes: Routes = [
   { path: 'preview/:title', component: CoursePreviewComponent },
   { path: 'contactUs', component: ContactUsComponent },
   { path: 'discussionPreview/:title', component: DiscussionPreviewComponent },
+  { path: 'resetPassword', component: ResetPasswordComponent },
 ];

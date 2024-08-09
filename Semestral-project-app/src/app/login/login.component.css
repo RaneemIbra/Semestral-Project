@@ -16,38 +16,27 @@
 }
 
 .container {
-  background-color: white;
+  background-color: #1d1d25; /* Darker background for the container */
   border-radius: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
   width: 768px;
   max-width: 100%;
   min-height: 480px;
   margin: auto auto;
-  margin-top: 200px; /* Adjusted margin to fit content better */
+  margin-top: 200px;
+  color: #fff; /* Set text color to white */
 }
 
-.container p {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  margin: 10px 0; /* Reduced margin */
-}
-
-.container span {
-  font-size: 12px;
-}
-
+.container p,
+.container span,
 .container a {
-  color: #333;
-  font-size: 13px;
-  text-decoration: none;
-  margin: 10px 0; /* Reduced margin */
+  color: white; /* Light gray text color */
 }
 
 .container button {
-  background-color: #5a5751;
+  background-color: #fa1e4e; /* Keep the accent color */
   color: #fff;
   font-size: 12px;
   padding: 10px 45px;
@@ -61,30 +50,33 @@
 }
 
 .container button.hidden {
-  background-color: transparent;
-  border-color: #fff;
+  background-color: white;
+  border-color: #fa1e4e;
+  color: #1d1d25;
 }
 
 .container form {
-  background-color: white;
+  background-color: #1d1d25; /* Darker form background */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0px 50px; /* Reduced padding */
-  height: calc(100% - 15vh); /* Adjusted height to fit button */
-  backdrop-filter: blur(20px);
+  padding: 0px 50px;
+  height: calc(100% - 15vh);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 
 .container input {
-  background-color: #eee;
+  background-color: #333333; /* Darker input background */
   border: none;
-  margin: 5px 0; /* Reduced margin */
+  margin: 1vh 0;
   padding: 10px 15px;
-  font-size: 13px;
+  font-size: 18px;
   border-radius: 8px;
   width: 100%;
   outline: none;
+  color: #fff;
 }
 
 .form-container {
@@ -131,21 +123,6 @@
   }
 }
 
-.social-icons {
-  margin: 10px 0; /* Reduced margin */
-}
-
-.social-icons a {
-  border: 1px solid #ccc;
-  border-radius: 20%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 3px;
-  width: 30px; /* Reduced size */
-  height: 30px; /* Reduced size */
-}
-
 .toggle-container {
   position: absolute;
   top: 0;
@@ -164,7 +141,7 @@
 }
 
 .toggle {
-  background-color: #fa1e4e;
+  background-color: #fa1e4e; /* Keep the accent color */
   height: 100%;
   color: #fff;
   position: relative;
@@ -187,7 +164,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 20px; /* Reduced padding */
+  padding: 0 20px;
   text-align: center;
   top: 0;
   transform: translateX(0);
@@ -212,10 +189,24 @@
 }
 
 .Sign-in-text {
-  margin-bottom: 20px; /* Reduced margin */
+  margin-bottom: 20px;
+  color: #fff; /* White text color */
 }
 
 .Sign {
   margin-left: 8vw;
   margin-top: 0;
+}
+
+.Forgot {
+  margin-top: 3vh;
+}
+
+p {
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+}
+
+span {
+  margin: 1vh 0;
 }

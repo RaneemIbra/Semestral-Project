@@ -42,7 +42,6 @@ export class DiscussionBoxComponent {
     let newLeft = this.initialX + deltaX;
     let newTop = this.initialY + deltaY;
 
-    // Keep the element within the parent boundaries
     const parentRect = this.moveElement.parentElement!.getBoundingClientRect();
     const moveRect = this.moveElement.getBoundingClientRect();
 

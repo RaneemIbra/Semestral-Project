@@ -1,15 +1,19 @@
 import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements AfterViewInit {
-  constructor(private el: ElementRef, private renderer: Renderer2, private router: Router) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private router: Router
+  ) {}
 
   onSignIn() {
     this.router.navigate(['/home']);

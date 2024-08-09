@@ -13,6 +13,7 @@ import { CourseComponent } from './courses-page/course/course.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
 import { DiscussionPreviewComponent } from './discussion/discussion-preview/discussion-preview.component';
+import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ import { DiscussionPreviewComponent } from './discussion/discussion-preview/disc
     ContactUsComponent,
     CoursePreviewComponent,
     DiscussionPreviewComponent,
+    ResetPasswordComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -50,7 +52,8 @@ export class AppComponent implements OnInit {
         )
       )
       .subscribe((event: NavigationEnd) => {
-        this.showHeader = event.urlAfterRedirects !== '/login';
+        const hideHeaderRoutes = ['/login', '/resetPassword'];
+        this.showHeader = !hideHeaderRoutes.includes(event.urlAfterRedirects);
       });
   }
 

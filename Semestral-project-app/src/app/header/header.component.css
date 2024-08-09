@@ -112,11 +112,11 @@
   margin-right: 2vw;
   font-family: sans-serif;
   text-decoration: none;
-  color: #7c859f;
+  color: white;
   font-weight: 700;
   cursor: pointer;
 }
 
 .header-links:hover {
-  color: white;
+  color: #fa1e4e;
 }
