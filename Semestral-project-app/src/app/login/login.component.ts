@@ -53,7 +53,9 @@ export class LoginComponent implements AfterViewInit {
           const user = userCredential.user;
           const userDocRef = doc(this.firestore, `users/${user.uid}`);
           setDoc(userDocRef, { name, email });
-          this.router.navigate(['/home']);
+          const container = this.el.nativeElement.querySelector('#container');
+          this.renderer.removeClass(container, 'active');
+          alert('Successfully signed up!');
         })
         .catch((error) => {
           console.error('Error during sign up:', error);
