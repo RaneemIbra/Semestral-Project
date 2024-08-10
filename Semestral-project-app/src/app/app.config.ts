@@ -6,7 +6,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { environment } from '../app/environments/environment';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
