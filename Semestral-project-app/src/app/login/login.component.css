@@ -198,6 +198,10 @@
   margin-top: 0;
 }
 
+.Sign:hover {
+  box-shadow: 0 5px 15px rgba(131, 131, 131, 0.5);
+}
+
 .Forgot {
   margin-top: 3vh;
 }
@@ -209,4 +213,8 @@ p {
 
 span {
   margin: 1vh 0;
+}
+
+.hidden:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
