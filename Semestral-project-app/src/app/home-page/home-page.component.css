@@ -1,9 +1,12 @@
 .background {
   display: flex;
-  background-image: url("../../assets/8406764.gif");
   width: 100vw;
-  min-height: 100vh;
-  display: flex;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  background-image: url("../../assets/8406764.gif");
 }
 
 .header-text {

@@ -14,6 +14,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CoursePreviewComponent } from './courses-page/course-preview/course-preview.component';
 import { DiscussionPreviewComponent } from './discussion/discussion-preview/discussion-preview.component';
 import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ import { ResetPasswordComponent } from './login/reset-password/reset-password.co
     CoursePreviewComponent,
     DiscussionPreviewComponent,
     ResetPasswordComponent,
+    ProfileComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
