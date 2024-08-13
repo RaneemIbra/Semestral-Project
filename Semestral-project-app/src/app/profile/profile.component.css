@@ -7,3 +7,15 @@
   padding: 0;
   background-image: url("../../assets/8406764.gif");
 }
+
+.profile-container {
+  margin-top: 20vh;
+  margin-left: 40vw;
+  width: 50vh;
+  height: 50vh;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

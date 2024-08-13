@@ -1,1 +1,12 @@
-<div class="background"></div>
+<div class="background">
+  <div class="profile-container">
+    <h1>Profile</h1>
+    <img
+      [src]="profilePicUrl | async"
+      alt="Profile Picture"
+      *ngIf="profilePicUrl"
+    />
+    <input type="file" (change)="onFileSelected($event)" />
+    <button (click)="onUpload()">Upload Profile Picture</button>
+  </div>
+</div>
