@@ -4,7 +4,7 @@
     <img
       [src]="profilePicUrl | async"
       alt="Profile Picture"
-      *ngIf="profilePicUrl"
+      *ngIf="profilePicUrl | async"
     />
     <input type="file" (change)="onFileSelected($event)" />
     <button (click)="onUpload()">Upload Profile Picture</button>

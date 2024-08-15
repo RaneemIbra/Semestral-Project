@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, user } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import {
   Storage,
   ref,
   getDownloadURL,
   uploadBytesResumable,
 } from '@angular/fire/storage';
-import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import {
+  Firestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { from, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AsyncPipe, NgIf } from '@angular/common';
 
@@ -16,7 +22,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
   standalone: true,
   imports: [CommonModule, AsyncPipe, NgIf],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   selectedFile: File | null = null;
@@ -33,11 +39,25 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfilePic() {
-    const authUser = user(this.auth);
+    const authUser = this.auth.currentUser;
     if (authUser) {
       const uid = authUser.uid;
-      const storageRef = ref(this.storage, `profilePictures/${uid}`);
-      this.profilePicUrl = from(getDownloadURL(storageRef));
+      const userDocRef = doc(this.firestore, `users/${uid}`);
+      getDoc(userDocRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            if (data && data['profilePicUrl']) {
+              // Correct access
+              this.profilePicUrl = of(
+                `${data['profilePicUrl']}?${new Date().getTime()}`
+              );
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading profile picture:', error);
+        });
     }
   }
 
@@ -50,7 +70,7 @@ export class ProfileComponent implements OnInit {
 
   async onUpload() {
     if (this.selectedFile) {
-      const authUser = user(this.auth);
+      const authUser = this.auth.currentUser;
       if (authUser) {
         const uid = authUser.uid;
         const storageRef = ref(this.storage, `profilePictures/${uid}`);
@@ -67,7 +87,9 @@ export class ProfileComponent implements OnInit {
           },
           async () => {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            this.updateProfilePicInDB(uid, downloadURL);
+            await this.updateProfilePicInDB(uid, downloadURL);
+            // Update the observable with the new URL immediately
+            this.profilePicUrl = of(`${downloadURL}?${new Date().getTime()}`);
           }
         );
       }
@@ -79,9 +101,17 @@ export class ProfileComponent implements OnInit {
   async updateProfilePicInDB(uid: string, downloadURL: string) {
     try {
       const userDocRef = doc(this.firestore, `users/${uid}`);
-      await updateDoc(userDocRef, { profilePicUrl: downloadURL });
-      alert('Profile picture updated successfully!');
-      this.loadProfilePic(); // Refresh the profile picture
+
+      // Check if the document exists
+      const docSnapshot = await getDoc(userDocRef);
+
+      if (docSnapshot.exists()) {
+        // If the document exists, update it
+        await updateDoc(userDocRef, { profilePicUrl: downloadURL });
+      } else {
+        // If the document does not exist, create it with the profilePicUrl
+        await setDoc(userDocRef, { profilePicUrl: downloadURL });
+      }
     } catch (error) {
       console.error('Error updating profile picture URL in Firestore:', error);
       alert('Failed to update profile picture in database.');
