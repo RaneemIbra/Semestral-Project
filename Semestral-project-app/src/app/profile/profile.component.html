@@ -1,16 +1,38 @@
 <div class="background">
-  <div class="box">
-    <div class="profile-container">
-      <h1 style="margin-bottom: 3vh">Profile</h1>
-      <img
-        [src]="profilePicUrl | async"
-        alt="Profile Picture"
-        *ngIf="profilePicUrl | async"
-      />
-      <div class="input-button-group">
-        <input type="file" (change)="onFileSelected($event)" />
-        <button (click)="onUpload()">Upload Profile Picture</button>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-pic-container">
+        <input
+          type="file"
+          id="profilePicInput"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+        <img
+          [src]="profilePicUrl | async"
+          alt="Profile Picture"
+          class="profile-pic"
+          (click)="triggerFileInput()"
+        />
       </div>
+      <div class="user-info">
+        <h2>{{ fullName }}</h2>
+        <p>{{ email }}</p>
+      </div>
+    </div>
+    <button class="Confirm" (click)="onUpload()">Confirm Picture</button>
+
+    <div class="about-user">
+      <textarea
+        [(ngModel)]="userAbout"
+        placeholder="About the user..."
+      ></textarea>
+      <button (click)="saveAbout()">Save Information</button>
+    </div>
+
+    <div class="detective-board">
+      <h1>Detective board</h1>
     </div>
   </div>
 </div>

@@ -16,17 +16,21 @@ import {
 import { from, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, NgIf],
+  imports: [CommonModule, AsyncPipe, NgIf, FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   selectedFile: File | null = null;
   profilePicUrl: Observable<string | null> | undefined;
+  fullName: string = 'John Doe';
+  email: string = 'johndoe@example.com';
+  userAbout: string = '';
 
   constructor(
     private auth: Auth,
@@ -36,6 +40,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProfilePic();
+    this.loadAboutInfo();
   }
 
   loadProfilePic() {
@@ -48,16 +53,20 @@ export class ProfileComponent implements OnInit {
           if (docSnapshot.exists()) {
             const data = docSnapshot.data();
             if (data && data['profilePicUrl']) {
-              // Correct access
-              this.profilePicUrl = of(
-                `${data['profilePicUrl']}?${new Date().getTime()}`
-              );
+              this.profilePicUrl = of(data['profilePicUrl']);
             }
           }
         })
         .catch((error) => {
           console.error('Error loading profile picture:', error);
         });
+    }
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('profilePicInput');
+    if (fileInput) {
+      fileInput.click();
     }
   }
 
@@ -68,7 +77,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  async onUpload() {
+  onUpload() {
     if (this.selectedFile) {
       const authUser = this.auth.currentUser;
       if (authUser) {
@@ -88,8 +97,7 @@ export class ProfileComponent implements OnInit {
           async () => {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             await this.updateProfilePicInDB(uid, downloadURL);
-            // Update the observable with the new URL immediately
-            this.profilePicUrl = of(`${downloadURL}?${new Date().getTime()}`);
+            this.profilePicUrl = of(downloadURL); // Update the image URL
           }
         );
       }
@@ -101,20 +109,46 @@ export class ProfileComponent implements OnInit {
   async updateProfilePicInDB(uid: string, downloadURL: string) {
     try {
       const userDocRef = doc(this.firestore, `users/${uid}`);
-
-      // Check if the document exists
-      const docSnapshot = await getDoc(userDocRef);
-
-      if (docSnapshot.exists()) {
-        // If the document exists, update it
-        await updateDoc(userDocRef, { profilePicUrl: downloadURL });
-      } else {
-        // If the document does not exist, create it with the profilePicUrl
-        await setDoc(userDocRef, { profilePicUrl: downloadURL });
-      }
+      await updateDoc(userDocRef, { profilePicUrl: downloadURL });
     } catch (error) {
       console.error('Error updating profile picture URL in Firestore:', error);
       alert('Failed to update profile picture in database.');
+    }
+  }
+
+  loadAboutInfo() {
+    const authUser = this.auth.currentUser;
+    if (authUser) {
+      const uid = authUser.uid;
+      const userDocRef = doc(this.firestore, `users/${uid}`);
+      getDoc(userDocRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            if (data && data['about']) {
+              this.userAbout = data['about'];
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading user info:', error);
+        });
+    }
+  }
+
+  saveAbout() {
+    const authUser = this.auth.currentUser;
+    if (authUser) {
+      const uid = authUser.uid;
+      const userDocRef = doc(this.firestore, `users/${uid}`);
+      updateDoc(userDocRef, { about: this.userAbout })
+        .then(() => {
+          alert('Information saved successfully!');
+        })
+        .catch((error) => {
+          console.error('Error saving user info:', error);
+          alert('Failed to save information.');
+        });
     }
   }
 }
