@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Storage, ref, getDownloadURL } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
@@ -22,7 +23,8 @@ export class LoginComponent implements AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private auth: Auth,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private storage: Storage
   ) {}
 
   onSignUp() {
@@ -49,10 +51,19 @@ export class LoginComponent implements AfterViewInit {
 
     if (email && password && name) {
       createUserWithEmailAndPassword(this.auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
           const userDocRef = doc(this.firestore, `users/${user.uid}`);
-          setDoc(userDocRef, { name, email });
+
+          const defaultProfilePicUrl = await getDownloadURL(
+            ref(this.storage, 'profilePictures/defaultPFP.jpg')
+          );
+
+          await setDoc(userDocRef, {
+            name,
+            email,
+            profilePicUrl: defaultProfilePicUrl,
+          });
           const container = this.el.nativeElement.querySelector('#container');
           this.renderer.removeClass(container, 'active');
           alert('Successfully signed up!');

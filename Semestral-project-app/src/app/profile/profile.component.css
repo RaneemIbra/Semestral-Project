@@ -1,3 +1,4 @@
+/* Background styling */
 .background {
   width: 100vw;
   height: 100vh;
@@ -6,16 +7,75 @@
   margin: 0;
   padding: 0;
   background-image: url("../../assets/8406764.gif");
-}
-
-.profile-container {
-  margin-top: 20vh;
-  margin-left: 40vw;
-  width: 50vh;
-  height: 50vh;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.image-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+}
+
+.input-button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Ensure it stretches to full width */
+}
+
+.profile-container {
+  width: 100vw;
+  min-height: 250px;
+  background-color: transparent;
+  padding: 20px;
+  border-radius: 20px;
+  color: white;
+  border: #fa1e4e solid 2px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-container img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.profile-container input[type="file"] {
+  margin-bottom: 15px;
+  margin-top: 1vh;
+}
+
+.profile-container button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile-container button:hover {
+  background-color: #45a049;
+}
+
+.box {
+  width: 95vw;
+  height: 85vh;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: #fa1e4e solid 2px;
+  border-radius: 20px;
+  overflow: hidden;
 }

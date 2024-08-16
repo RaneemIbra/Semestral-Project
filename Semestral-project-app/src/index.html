@@ -13,6 +13,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preload" href="{{profilePicUrl | async}}" as="image" />
   </head>
   <body>
     <app-root ngSkipHydration></app-root>
