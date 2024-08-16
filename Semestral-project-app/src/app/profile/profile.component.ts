@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, User } from '@angular/fire/auth';
 import {
   Storage,
   ref,
   getDownloadURL,
   uploadBytesResumable,
 } from '@angular/fire/storage';
-import {
-  Firestore,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from '@angular/fire/firestore';
-import { from, Observable, of } from 'rxjs';
+import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,10 +21,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProfileComponent implements OnInit {
   selectedFile: File | null = null;
-  profilePicUrl: Observable<string | null> | undefined;
-  fullName: string = 'John Doe';
-  email: string = 'johndoe@example.com';
+  private profilePicUrlSubject = new BehaviorSubject<string | null>(null);
+  profilePicUrl = this.profilePicUrlSubject.asObservable();
+  fullName: string = '';
+  email: string = '';
   userAbout: string = '';
+  isImageSelected: boolean = false;
 
   constructor(
     private auth: Auth,
@@ -39,8 +35,32 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadUserData();
     this.loadProfilePic();
     this.loadAboutInfo();
+  }
+
+  loadUserData() {
+    const authUser = this.auth.currentUser;
+    if (authUser) {
+      this.email = authUser.email || '';
+
+      const uid = authUser.uid;
+      const userDocRef = doc(this.firestore, `users/${uid}`);
+      getDoc(userDocRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            if (data && data['name']) {
+              // Use 'name' here if that's how it's stored in Firestore
+              this.fullName = data['name'];
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading user data:', error);
+        });
+    }
   }
 
   loadProfilePic() {
@@ -53,7 +73,7 @@ export class ProfileComponent implements OnInit {
           if (docSnapshot.exists()) {
             const data = docSnapshot.data();
             if (data && data['profilePicUrl']) {
-              this.profilePicUrl = of(data['profilePicUrl']);
+              this.profilePicUrlSubject.next(data['profilePicUrl']);
             }
           }
         })
@@ -74,6 +94,7 @@ export class ProfileComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.selectedFile = input.files[0];
+      this.isImageSelected = true;
     }
   }
 
@@ -88,7 +109,7 @@ export class ProfileComponent implements OnInit {
         uploadTask.on(
           'state_changed',
           (snapshot) => {
-            // Handle progress, e.g., show a progress bar
+            // Optionally handle upload progress here
           },
           (error) => {
             console.error('Error uploading file:', error);
@@ -97,7 +118,8 @@ export class ProfileComponent implements OnInit {
           async () => {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             await this.updateProfilePicInDB(uid, downloadURL);
-            this.profilePicUrl = of(downloadURL); // Update the image URL
+            this.profilePicUrlSubject.next(downloadURL);
+            this.isImageSelected = false;
           }
         );
       }

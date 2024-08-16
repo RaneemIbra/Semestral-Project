@@ -11,7 +11,7 @@
         />
         <img
           [src]="profilePicUrl | async"
-          alt="Profile Picture"
+          alt=""
           class="profile-pic"
           (click)="triggerFileInput()"
         />
@@ -21,7 +21,9 @@
         <p>{{ email }}</p>
       </div>
     </div>
-    <button class="Confirm" (click)="onUpload()">Confirm Picture</button>
+    <button *ngIf="isImageSelected" class="Confirm" (click)="onUpload()">
+      Confirm Picture
+    </button>
 
     <div class="about-user">
       <textarea
@@ -32,7 +34,7 @@
     </div>
 
     <div class="detective-board">
-      <h1>Detective board</h1>
+      <h1>Detective/Ideas board</h1>
     </div>
   </div>
 </div>

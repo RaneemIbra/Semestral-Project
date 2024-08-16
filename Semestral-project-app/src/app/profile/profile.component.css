@@ -14,13 +14,14 @@
 
 .profile-container {
   width: 90vw;
-  height: 110vh;
+  height: 112vh;
   margin-top: 40vh;
   padding: 20px;
   border: 5px solid #fa1e4e;
   border-radius: 10px;
   background-color: transparent;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 4vh;
 }
 
 .profile-header {
@@ -51,8 +52,22 @@
   cursor: pointer;
 }
 
-.user-info h2,
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1; /* Allow user-info to take up the remaining space */
+  margin-left: 20px; /* Add some space between the image and the text */
+}
+
+.user-info h2 {
+  font-size: 2.5rem; /* Increase the font size for the name */
+  margin: 0;
+  line-height: 1.2;
+}
+
 .user-info p {
+  font-size: 1.5rem; /* Increase the font size for the email */
   margin: 0;
 }
 
@@ -75,6 +90,7 @@
   border: 1px solid #fa1e4e;
   background-color: transparent;
   color: white;
+  font-size: 26px;
   resize: none;
 }
 
@@ -89,7 +105,14 @@
 }
 
 .Confirm {
-  margin-top: 3vh;
+  margin-top: 2vh;
+  background-color: #fa1e4e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 35px;
+  width: 8vw;
 }
 
 .detective-board {
