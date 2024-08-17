@@ -52,7 +52,6 @@ export class ProfileComponent implements OnInit {
           if (docSnapshot.exists()) {
             const data = docSnapshot.data();
             if (data && data['name']) {
-              // Use 'name' here if that's how it's stored in Firestore
               this.fullName = data['name'];
             }
           }
@@ -108,9 +107,7 @@ export class ProfileComponent implements OnInit {
 
         uploadTask.on(
           'state_changed',
-          (snapshot) => {
-            // Optionally handle upload progress here
-          },
+          (snapshot) => {},
           (error) => {
             console.error('Error uploading file:', error);
             alert('Failed to upload profile picture.');
