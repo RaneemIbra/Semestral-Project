@@ -1,3 +1,12 @@
 <div class="discussion-box">
-  <div class="move" (mousedown)="onMouseDown($event)"></div>
+  <div
+    *ngFor="let div of divs"
+    class="move"
+    [style.left.px]="div.left"
+    [style.top.px]="div.top"
+    [attr.data-div-id]="div.id"
+    (mousedown)="onMouseDown($event, div.id)"
+    (dblclick)="openDialog()"
+  ></div>
+  <button (click)="addDiv()">Add Div</button>
 </div>

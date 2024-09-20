@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.css',
 })
