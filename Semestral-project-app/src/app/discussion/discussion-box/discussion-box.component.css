@@ -17,9 +17,25 @@
 
 .move {
   background-color: #fa1e4e;
-  height: 10vh;
-  width: 10vh;
+  height: 4vh;
+  width: 4vh;
   position: absolute;
   cursor: grab;
   border-radius: 5px;
+}
+
+.inactive-div {
+  background-color: #fa1e4e;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.active-div {
+  background-color: #5c5d63;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  cursor: pointer;
 }

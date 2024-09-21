@@ -10,6 +10,7 @@ import {
   doc,
   setDoc,
 } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-discussion-box',
@@ -21,11 +22,17 @@ import {
 export class DiscussionBoxComponent implements OnInit {
   @Input() title: string = '';
   divs: { left: number; top: number; id: string }[] = [];
+  activeDivId: string | null = null;
 
-  constructor(private dialog: MatDialog, private firestore: Firestore) {}
+  constructor(
+    private dialog: MatDialog,
+    private firestore: Firestore,
+    private auth: Auth
+  ) {}
 
   ngOnInit(): void {
-    this.fetchDiscussionBoxes();
+    this.loadDiscussionBox(this.title);
+    console.log(this.title);
   }
 
   private isDragging = false;
@@ -35,10 +42,10 @@ export class DiscussionBoxComponent implements OnInit {
   private initialY = 0;
   private moveElement: HTMLElement | null = null;
 
-  fetchDiscussionBoxes(): void {
+  loadDiscussionBox(community: string): void {
     const discussionBoxCollection = collection(
       this.firestore,
-      'discussion-boxes'
+      `discussion-boxes/${community}/divs`
     );
 
     getDocs(discussionBoxCollection)
@@ -51,26 +58,47 @@ export class DiscussionBoxComponent implements OnInit {
             id: doc.id,
           };
         });
+        console.log('Discussion box loaded:', this.divs);
       })
       .catch((error) => {
-        console.error('Error fetching discussion boxes: ', error);
+        console.error('Error loading discussion box:', error);
       });
   }
 
-  // Save discussion box positions in Firestore
   saveDiscussionBox(divId: string, left: number, top: number): void {
-    const discussionBoxDoc = doc(this.firestore, 'discussion-boxes', divId);
+    const currentUser = this.auth.currentUser;
 
-    setDoc(discussionBoxDoc, { left, top })
-      .then(() => {
-        console.log('Discussion box saved successfully!');
-      })
-      .catch((error) => {
-        console.error('Error saving discussion box: ', error);
-      });
+    if (currentUser) {
+      console.log('User is authenticated with UID:', currentUser.uid);
+
+      const discussionBoxDoc = doc(
+        this.firestore,
+        `discussion-boxes/${this.title}/divs/${divId}`
+      );
+      console.log(
+        `Saving to path: discussion-boxes/${this.title}/divs/${divId}`
+      );
+
+      setDoc(discussionBoxDoc, { left, top })
+        .then(() => {
+          console.log('Discussion box saved successfully!');
+        })
+        .catch((error) => {
+          console.error('Error saving discussion box:', error);
+        });
+    } else {
+      console.error('User is not authenticated!');
+    }
   }
 
-  // When the user starts dragging
+  onDivClick(divId: string): void {
+    if (this.activeDivId === divId) {
+      this.activeDivId = null;
+    } else {
+      this.activeDivId = divId;
+    }
+  }
+
   onMouseDown(event: MouseEvent, divId: string): void {
     this.isDragging = true;
     this.startX = event.clientX;
@@ -113,7 +141,6 @@ export class DiscussionBoxComponent implements OnInit {
     this.moveElement.style.left = `${newLeft}px`;
     this.moveElement.style.top = `${newTop}px`;
 
-    // Update position in div array
     const divId = this.moveElement.getAttribute('data-div-id');
     const divIndex = this.divs.findIndex((div) => div.id === divId);
     if (divIndex >= 0) {
@@ -143,13 +170,17 @@ export class DiscussionBoxComponent implements OnInit {
 
   addDiv(): void {
     const newDiv = { left: 0, top: 0, id: (this.divs.length + 1).toString() };
-    this.divs.push(newDiv);
-    addDoc(collection(this.firestore, 'discussion-boxes'), newDiv)
+
+    addDoc(
+      collection(this.firestore, `discussion-boxes/${this.title}/divs`),
+      newDiv
+    )
       .then((docRef) => {
-        console.log('Added new discussion box with ID: ', docRef.id);
+        console.log('Added new div with ID: ', docRef.id);
+        this.divs.push({ ...newDiv, id: docRef.id });
       })
       .catch((error) => {
-        console.error('Error adding discussion box: ', error);
+        console.error('Error adding div: ', error);
       });
   }
 

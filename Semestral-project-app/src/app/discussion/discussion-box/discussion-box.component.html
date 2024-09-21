@@ -5,8 +5,13 @@
     [style.left.px]="div.left"
     [style.top.px]="div.top"
     [attr.data-div-id]="div.id"
+    [ngClass]="{
+      'active-div': activeDivId === div.id,
+      'inactive-div': activeDivId !== div.id
+    }"
     (mousedown)="onMouseDown($event, div.id)"
     (dblclick)="openDialog()"
+    (click)="onDivClick(div.id)"
   ></div>
   <button (click)="addDiv()">Add Div</button>
 </div>
