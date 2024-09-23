@@ -8,6 +8,7 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
+    provideStorage(() => getStorage()), provideAnimationsAsync(),
   ],
 };

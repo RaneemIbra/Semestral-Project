@@ -1,33 +1,33 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { DialogComponent } from '../dialog/dialog.component';
 import {
   Firestore,
   collection,
-  addDoc,
   getDocs,
   doc,
   setDoc,
+  addDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-discussion-box',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, DialogComponent],
   templateUrl: './discussion-box.component.html',
   styleUrls: ['./discussion-box.component.css'],
 })
 export class DiscussionBoxComponent implements OnInit {
   @Input() title: string = '';
-  divs: { left: number; top: number; id: string }[] = [];
+  divs: { left: number; top: number; id: string; text?: string }[] = [];
   activeDivId: string | null = null;
 
   constructor(
-    private dialog: MatDialog,
     private firestore: Firestore,
-    private auth: Auth
+    private auth: Auth,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +42,14 @@ export class DiscussionBoxComponent implements OnInit {
   private initialY = 0;
   private moveElement: HTMLElement | null = null;
 
+  openDialogTest() {
+    this.dialog.open(DialogComponent, {
+      width: '400px',
+      height: '350px',
+      data: { title: 'Modern Dialog' },
+    });
+  }
+
   loadDiscussionBox(community: string): void {
     const discussionBoxCollection = collection(
       this.firestore,
@@ -51,35 +59,39 @@ export class DiscussionBoxComponent implements OnInit {
     getDocs(discussionBoxCollection)
       .then((snapshot) => {
         this.divs = snapshot.docs.map((doc) => {
-          const data = doc.data() as { left: number; top: number };
+          const data = doc.data() as {
+            left: number;
+            top: number;
+            text?: string;
+          };
           return {
             left: data.left,
             top: data.top,
             id: doc.id,
+            text: data.text || '',
           };
         });
-        console.log('Discussion box loaded:', this.divs);
       })
       .catch((error) => {
         console.error('Error loading discussion box:', error);
       });
   }
 
-  saveDiscussionBox(divId: string, left: number, top: number): void {
+  saveDiscussionBox(
+    divId: string,
+    left: number,
+    top: number,
+    text?: string
+  ): void {
     const currentUser = this.auth.currentUser;
 
     if (currentUser) {
-      console.log('User is authenticated with UID:', currentUser.uid);
-
       const discussionBoxDoc = doc(
         this.firestore,
         `discussion-boxes/${this.title}/divs/${divId}`
       );
-      console.log(
-        `Saving to path: discussion-boxes/${this.title}/divs/${divId}`
-      );
 
-      setDoc(discussionBoxDoc, { left, top })
+      setDoc(discussionBoxDoc, { left, top, text })
         .then(() => {
           console.log('Discussion box saved successfully!');
         })
@@ -169,29 +181,105 @@ export class DiscussionBoxComponent implements OnInit {
   }
 
   addDiv(): void {
-    const newDiv = { left: 0, top: 0, id: (this.divs.length + 1).toString() };
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '300px',
+      data: { title: 'Enter note text', text: '' },
+    });
 
-    addDoc(
-      collection(this.firestore, `discussion-boxes/${this.title}/divs`),
-      newDiv
-    )
-      .then((docRef) => {
-        console.log('Added new div with ID: ', docRef.id);
-        this.divs.push({ ...newDiv, id: docRef.id });
-      })
-      .catch((error) => {
-        console.error('Error adding div: ', error);
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newDiv = {
+          left: 0,
+          top: 0,
+          id: (this.divs.length + 1).toString(),
+          text: result.text,
+        };
+
+        addDoc(
+          collection(this.firestore, `discussion-boxes/${this.title}/divs`),
+          newDiv
+        )
+          .then((docRef) => {
+            this.divs.push({ ...newDiv, id: docRef.id });
+          })
+          .catch((error) => {
+            console.error('Error adding div: ', error);
+          });
+      }
+    });
   }
 
-  openDialog() {
-    this.dialog.open(DialogComponent, {
-      width: '200px',
-      height: '200px',
-      data: { title: 'Discussion Box' },
-      disableClose: false,
-      hasBackdrop: true,
-      autoFocus: true,
-    });
+  openDialog(divId: string): void {
+    const divIndex = this.divs.findIndex((div) => div.id === divId);
+    if (divIndex >= 0) {
+      const divData = this.divs[divIndex];
+
+      const width = 400;
+      const height = 400;
+      const left = window.innerWidth / 2 - width / 2;
+      const top = window.innerHeight / 2 - height / 2;
+
+      const dialogWindow = window.open(
+        '',
+        '_blank',
+        `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
+      );
+
+      if (dialogWindow) {
+        dialogWindow.document.write(`
+          <html>
+            <head>
+              <title>Discussion Box</title>
+              <style>
+                body {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  height: 100%;
+                  margin: 0;
+                  font-family: Arial, sans-serif;
+                  background-color: #fafafa;
+                }
+                .dialog-title {
+                  font-size: 24px;
+                  margin-bottom: 20px;
+                }
+                .dialog-content {
+                  font-size: 16px;
+                  margin-bottom: 20px;
+                  text-align: center;
+                }
+                .dialog-actions {
+                  display: flex;
+                  justify-content: center;
+                }
+                button {
+                  padding: 10px 20px;
+                  background-color: #fa1e4e;
+                  border: none;
+                  color: white;
+                  cursor: pointer;
+                }
+                button:hover {
+                  background-color: #d41842;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="dialog-title">Discussion Box</div>
+              <div class="dialog-content">
+                ${
+                  divData.text ? divData.text : 'No text provided for this div.'
+                }
+              </div>
+              <div class="dialog-actions">
+                <button onclick="window.close()">Close</button>
+              </div>
+            </body>
+          </html>
+        `);
+      }
+    }
   }
 }

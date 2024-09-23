@@ -1,7 +1,17 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
-<div mat-dialog-content>
-  <p>Here you can put your discussion details or anything you want!</p>
+<h1 mat-dialog-title class="dialog-title">{{ data.title }}</h1>
+<div mat-dialog-content class="dialog-content">
+  <p>
+    You can enter your note text or discussion details here. Please make sure to
+    keep it concise and meaningful!
+  </p>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onClose()">Close</button>
+<div mat-dialog-actions class="dialog-actions">
+  <button
+    mat-raised-button
+    color="primary"
+    class="dialog-button"
+    (click)="onClose()"
+  >
+    Close
+  </button>
 </div>
