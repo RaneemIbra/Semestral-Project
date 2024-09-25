@@ -10,7 +10,7 @@
       'inactive-div': activeDivId !== div.id
     }"
     (mousedown)="onMouseDown($event, div.id)"
-    (dblclick)="openDialogTest()"
+    (dblclick)="openDialog(div.id)"
     (click)="onDivClick(div.id)"
   ></div>
   <button (click)="addDiv()">Add Div</button>

@@ -81,7 +81,7 @@ export class DiscussionBoxComponent implements OnInit {
     divId: string,
     left: number,
     top: number,
-    text?: string
+    text: string
   ): void {
     const currentUser = this.auth.currentUser;
 
@@ -171,11 +171,8 @@ export class DiscussionBoxComponent implements OnInit {
       const divId = this.moveElement.getAttribute('data-div-id') || '';
       const divIndex = this.divs.findIndex((div) => div.id === divId);
       if (divIndex >= 0) {
-        this.saveDiscussionBox(
-          divId,
-          this.divs[divIndex].left,
-          this.divs[divIndex].top
-        );
+        const div = this.divs[divIndex];
+        this.saveDiscussionBox(divId, div.left, div.top, div.text || '');
       }
     }
   }
@@ -183,11 +180,11 @@ export class DiscussionBoxComponent implements OnInit {
   addDiv(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '300px',
-      data: { title: 'Enter note text', text: '' },
+      data: { title: 'Enter note text', text: '', mode: 'add' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      if (result && result.text) {
         const newDiv = {
           left: 0,
           top: 0,
@@ -205,6 +202,8 @@ export class DiscussionBoxComponent implements OnInit {
           .catch((error) => {
             console.error('Error adding div: ', error);
           });
+      } else {
+        console.error('No text entered. Div was not added.');
       }
     });
   }
@@ -214,72 +213,18 @@ export class DiscussionBoxComponent implements OnInit {
     if (divIndex >= 0) {
       const divData = this.divs[divIndex];
 
-      const width = 400;
-      const height = 400;
-      const left = window.innerWidth / 2 - width / 2;
-      const top = window.innerHeight / 2 - height / 2;
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '400px',
+        data: { title: 'View note text', text: divData.text, mode: 'view' },
+      });
 
-      const dialogWindow = window.open(
-        '',
-        '_blank',
-        `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
-      );
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.divs[divIndex].text = result.text;
 
-      if (dialogWindow) {
-        dialogWindow.document.write(`
-          <html>
-            <head>
-              <title>Discussion Box</title>
-              <style>
-                body {
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: center;
-                  align-items: center;
-                  height: 100%;
-                  margin: 0;
-                  font-family: Arial, sans-serif;
-                  background-color: #fafafa;
-                }
-                .dialog-title {
-                  font-size: 24px;
-                  margin-bottom: 20px;
-                }
-                .dialog-content {
-                  font-size: 16px;
-                  margin-bottom: 20px;
-                  text-align: center;
-                }
-                .dialog-actions {
-                  display: flex;
-                  justify-content: center;
-                }
-                button {
-                  padding: 10px 20px;
-                  background-color: #fa1e4e;
-                  border: none;
-                  color: white;
-                  cursor: pointer;
-                }
-                button:hover {
-                  background-color: #d41842;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="dialog-title">Discussion Box</div>
-              <div class="dialog-content">
-                ${
-                  divData.text ? divData.text : 'No text provided for this div.'
-                }
-              </div>
-              <div class="dialog-actions">
-                <button onclick="window.close()">Close</button>
-              </div>
-            </body>
-          </html>
-        `);
-      }
+          this.saveDiscussionBox(divId, divData.left, divData.top, result.text);
+        }
+      });
     }
   }
 }

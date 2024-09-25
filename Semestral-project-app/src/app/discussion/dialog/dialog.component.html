@@ -1,17 +1,17 @@
-<h1 mat-dialog-title class="dialog-title">{{ data.title }}</h1>
-<div mat-dialog-content class="dialog-content">
-  <p>
-    You can enter your note text or discussion details here. Please make sure to
-    keep it concise and meaningful!
-  </p>
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  <ng-container *ngIf="mode === 'add'; else viewMode">
+    <mat-form-field>
+      <mat-label>Enter text</mat-label>
+      <input matInput [(ngModel)]="data.text" />
+    </mat-form-field>
+  </ng-container>
+
+  <ng-template #viewMode>
+    <p>{{ data.text }}</p>
+  </ng-template>
 </div>
-<div mat-dialog-actions class="dialog-actions">
-  <button
-    mat-raised-button
-    color="primary"
-    class="dialog-button"
-    (click)="onClose()"
-  >
-    Close
-  </button>
+<div mat-dialog-actions *ngIf="mode === 'add'">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data">Save</button>
 </div>

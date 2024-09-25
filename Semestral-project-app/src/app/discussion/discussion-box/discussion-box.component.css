@@ -17,8 +17,8 @@
 
 .move {
   background-color: #fa1e4e;
-  height: 4vh;
-  width: 4vh;
+  height: 2vh;
+  width: 2vh;
   position: absolute;
   cursor: grab;
   border-radius: 5px;
