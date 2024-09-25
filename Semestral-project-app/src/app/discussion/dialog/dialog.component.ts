@@ -19,19 +19,20 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
   ],
   templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.css',
+  styleUrls: ['./dialog.component.css'],
 })
 export class DialogComponent {
-  mode: 'view' | 'add';
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; text: string; mode: 'view' | 'add' }
-  ) {
-    this.mode = data.mode;
-  }
+    public data: { title: string; divTitle: string; text: string; mode: string }
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onDeleteClick(): void {
+    this.dialogRef.close({ delete: true });
   }
 }

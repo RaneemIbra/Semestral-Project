@@ -17,11 +17,18 @@
 
 .move {
   background-color: #fa1e4e;
-  height: 2vh;
-  width: 2vh;
+  height: 4vh;
+  width: 8vh;
   position: absolute;
   cursor: grab;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .inactive-div {

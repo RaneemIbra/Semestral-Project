@@ -7,6 +7,7 @@ import {
   doc,
   setDoc,
   addDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -21,7 +22,13 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class DiscussionBoxComponent implements OnInit {
   @Input() title: string = '';
-  divs: { left: number; top: number; id: string; text?: string }[] = [];
+  divs: {
+    left: number;
+    top: number;
+    id: string;
+    divTitle: string;
+    text?: string;
+  }[] = [];
   activeDivId: string | null = null;
 
   constructor(
@@ -62,12 +69,14 @@ export class DiscussionBoxComponent implements OnInit {
           const data = doc.data() as {
             left: number;
             top: number;
-            text?: string;
+            divTitle: string;
+            text: string;
           };
           return {
             left: data.left,
             top: data.top,
             id: doc.id,
+            divTitle: data.divTitle || '',
             text: data.text || '',
           };
         });
@@ -81,6 +90,7 @@ export class DiscussionBoxComponent implements OnInit {
     divId: string,
     left: number,
     top: number,
+    divTitle: string,
     text: string
   ): void {
     const currentUser = this.auth.currentUser;
@@ -91,7 +101,7 @@ export class DiscussionBoxComponent implements OnInit {
         `discussion-boxes/${this.title}/divs/${divId}`
       );
 
-      setDoc(discussionBoxDoc, { left, top, text })
+      setDoc(discussionBoxDoc, { left, top, divTitle, text })
         .then(() => {
           console.log('Discussion box saved successfully!');
         })
@@ -172,7 +182,13 @@ export class DiscussionBoxComponent implements OnInit {
       const divIndex = this.divs.findIndex((div) => div.id === divId);
       if (divIndex >= 0) {
         const div = this.divs[divIndex];
-        this.saveDiscussionBox(divId, div.left, div.top, div.text || '');
+        this.saveDiscussionBox(
+          divId,
+          div.left,
+          div.top,
+          div.divTitle || '',
+          div.text || ''
+        );
       }
     }
   }
@@ -180,15 +196,21 @@ export class DiscussionBoxComponent implements OnInit {
   addDiv(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '300px',
-      data: { title: 'Enter note text', text: '', mode: 'add' },
+      data: {
+        title: 'Enter note details',
+        divTitle: '',
+        text: '',
+        mode: 'edit',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.text) {
+      if (result && result.divTitle && result.text) {
         const newDiv = {
           left: 0,
           top: 0,
           id: (this.divs.length + 1).toString(),
+          divTitle: result.divTitle,
           text: result.text,
         };
 
@@ -203,7 +225,7 @@ export class DiscussionBoxComponent implements OnInit {
             console.error('Error adding div: ', error);
           });
       } else {
-        console.error('No text entered. Div was not added.');
+        console.error('Title or text missing. Div was not added.');
       }
     });
   }
@@ -215,16 +237,44 @@ export class DiscussionBoxComponent implements OnInit {
 
       const dialogRef = this.dialog.open(DialogComponent, {
         width: '400px',
-        data: { title: 'View note text', text: divData.text, mode: 'view' },
+        data: {
+          title: divData.divTitle || 'No title',
+          text: divData.text,
+          mode: 'view',
+        },
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
+        if (result?.delete) {
+          this.deleteDiv(divId, divIndex);
+        } else if (result) {
+          this.divs[divIndex].divTitle = result.divTitle;
           this.divs[divIndex].text = result.text;
 
-          this.saveDiscussionBox(divId, divData.left, divData.top, result.text);
+          this.saveDiscussionBox(
+            divId,
+            divData.left,
+            divData.top,
+            result.divTitle,
+            result.text
+          );
         }
       });
     }
+  }
+
+  deleteDiv(divId: string, divIndex: number): void {
+    const discussionBoxDoc = doc(
+      this.firestore,
+      `discussion-boxes/${this.title}/divs/${divId}`
+    );
+    deleteDoc(discussionBoxDoc)
+      .then(() => {
+        console.log('Div deleted from Firestore');
+        this.divs.splice(divIndex, 1);
+      })
+      .catch((error) => {
+        console.error('Error deleting div from Firestore:', error);
+      });
   }
 }

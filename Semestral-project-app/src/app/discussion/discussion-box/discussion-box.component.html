@@ -12,6 +12,8 @@
     (mousedown)="onMouseDown($event, div.id)"
     (dblclick)="openDialog(div.id)"
     (click)="onDivClick(div.id)"
-  ></div>
+  >
+    {{ div.divTitle || "Untitled" }}
+  </div>
   <button (click)="addDiv()">Add Div</button>
 </div>
