@@ -11,5 +11,30 @@ app-root {
   width: 100%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-dialog-container h2 {
+  color: white !important;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+mat-dialog-container mat-dialog-content {
+  background-color: #fa1e4e !important;
+  color: white !important;
+  padding: 20px;
+}
+
+:root {
+  --mdc-dialog-subhead-color: white;
+  --mdc-dialog-subhead-size: 24px;
+  --mdc-dialog-subhead-weight: bold;
+}

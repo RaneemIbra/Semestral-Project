@@ -195,7 +195,7 @@ export class DiscussionBoxComponent implements OnInit {
 
   addDiv(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '300px',
+      width: '400px',
       data: {
         title: 'Enter note details',
         divTitle: '',
@@ -242,6 +242,7 @@ export class DiscussionBoxComponent implements OnInit {
           text: divData.text,
           mode: 'view',
         },
+        panelClass: 'custom-dialog-container',
       });
 
       dialogRef.afterClosed().subscribe((result) => {

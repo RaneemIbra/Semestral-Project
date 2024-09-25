@@ -1,22 +1,28 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
-<div mat-dialog-content *ngIf="data.mode === 'edit'">
-  <mat-form-field>
-    <mat-label>Enter title</mat-label>
-    <input matInput [(ngModel)]="data.divTitle" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Enter text</mat-label>
-    <input matInput [(ngModel)]="data.text" />
-  </mat-form-field>
-</div>
+<div class="dialog-background">
+  <h1 mat-dialog-title>{{ data.title }}</h1>
 
-<div mat-dialog-content *ngIf="data.mode === 'view'">
-  <h2>{{ data.divTitle }}</h2>
-  <p>{{ data.text }}</p>
-</div>
+  <div mat-dialog-content *ngIf="data.mode === 'edit'">
+    <mat-form-field>
+      <mat-label>Enter title</mat-label>
+      <input matInput [(ngModel)]="data.divTitle" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enter text</mat-label>
+      <input matInput [(ngModel)]="data.text" />
+    </mat-form-field>
+  </div>
 
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onDeleteClick()">Delete</button>
-  <button mat-button [mat-dialog-close]="data">Save</button>
+  <div mat-dialog-content *ngIf="data.mode === 'view'">
+    <p>{{ data.text }}</p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button class="dialog-btn" (click)="onNoClick()">Cancel</button>
+    <button mat-button class="dialog-btn" (click)="onDeleteClick()">
+      Delete
+    </button>
+    <button mat-button class="dialog-btn" [mat-dialog-close]="data">
+      Save
+    </button>
+  </div>
 </div>

@@ -1,40 +1,88 @@
-.mat-dialog-container {
-  border-radius: 12px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: white;
+mat-dialog-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+mat-dialog-content {
+  background-color: #fa1e4e !important;
+  color: white;
+  font-family: "Arial", sans-serif;
   padding: 20px;
 }
 
-.dialog-title {
-  font-size: 24px;
+.dialog-background {
+  background-color: #fa1e4e !important;
+  color: white !important;
+}
+
+::ng-deep mat-dialog-content h2 {
+  color: white !important;
+  font-size: 20px;
   font-weight: bold;
-  color: #fa1e4e;
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.dialog-content {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: center;
-}
-
-.dialog-button {
-  background-color: #fa1e4e;
+p {
   color: white;
-  border-radius: 8px;
-  padding: 10px 24px;
   font-size: 16px;
+}
+
+.dialog-btn {
+  background-color: white !important;
+  color: #fa1e4e !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 5px;
   transition: background-color 0.3s ease;
 }
 
-.dialog-button:hover {
-  background-color: #d41842;
+.dialog-btn:hover {
+  background-color: #f7b8b8 !important;
+}
+
+mat-form-field {
+  display: block;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.mat-label {
+  color: grey !important;
+}
+
+.mat-input-element {
+  background-color: white !important;
+  color: black !important;
+  border-bottom-color: grey !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: grey !important;
+}
+
+::ng-deep .mat-form-field-flex {
+  width: 100% !important;
+}
+
+::ng-deep .mat-input-element {
+  font-size: 16px !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  padding: 10px;
+}
+
+.mat-mdc-dialog-title {
+  color: white !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-title {
+  color: white !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
 }
