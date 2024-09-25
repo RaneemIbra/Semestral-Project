@@ -1,5 +1,4 @@
 .discussion-box {
-  padding: 20px;
   background-color: transparent;
   border: solid 2px #fa1e4e;
   border-radius: 10px;
@@ -9,24 +8,60 @@
   width: 94vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 5vw;
+  background-color: #202230;
+  border-right: 2px solid #fa1e4e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.add-button {
+  background-color: #fa1e4e;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.add-button:hover {
+  background-color: #d41d45;
+}
+
+.discussion-area {
+  flex-grow: 1;
+  position: relative;
+  background-color: transparent;
+  padding-left: 5vw;
   overflow: hidden;
 }
 
 .move {
   background-color: #fa1e4e;
-  height: 4vh;
-  width: 8vh;
+  height: 8vh !important;
+  width: 6vw !important;
   position: absolute;
   cursor: grab;
   border-radius: 5px;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
 }

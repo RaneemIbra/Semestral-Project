@@ -1,19 +1,24 @@
 <div class="discussion-box">
-  <div
-    *ngFor="let div of divs"
-    class="move"
-    [style.left.px]="div.left"
-    [style.top.px]="div.top"
-    [attr.data-div-id]="div.id"
-    [ngClass]="{
-      'active-div': activeDivId === div.id,
-      'inactive-div': activeDivId !== div.id
-    }"
-    (mousedown)="onMouseDown($event, div.id)"
-    (dblclick)="openDialog(div.id)"
-    (click)="onDivClick(div.id)"
-  >
-    {{ div.divTitle || "Untitled" }}
+  <div class="sidebar">
+    <button class="add-button" (click)="addDiv()">Add Div</button>
   </div>
-  <button (click)="addDiv()">Add Div</button>
+
+  <div class="discussion-area">
+    <div
+      *ngFor="let div of divs"
+      class="move"
+      [style.left.px]="div.left"
+      [style.top.px]="div.top"
+      [attr.data-div-id]="div.id"
+      [ngClass]="{
+        'active-div': activeDivId === div.id,
+        'inactive-div': activeDivId !== div.id
+      }"
+      (mousedown)="onMouseDown($event, div.id)"
+      (dblclick)="openDialog(div.id)"
+      (click)="onDivClick(div.id)"
+    >
+      {{ div.divTitle || "Untitled" }}
+    </div>
+  </div>
 </div>

@@ -153,7 +153,9 @@ export class DiscussionBoxComponent implements OnInit {
     const parentRect = this.moveElement.parentElement!.getBoundingClientRect();
     const moveRect = this.moveElement.getBoundingClientRect();
 
-    if (newLeft < 0) newLeft = 0;
+    const sidebarWidth = 5 * (window.innerWidth / 100);
+
+    if (newLeft < sidebarWidth) newLeft = sidebarWidth;
     if (newTop < 0) newTop = 0;
     if (newLeft + moveRect.width > parentRect.width)
       newLeft = parentRect.width - moveRect.width;
@@ -207,7 +209,7 @@ export class DiscussionBoxComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.divTitle && result.text) {
         const newDiv = {
-          left: 0,
+          left: 5 * (window.innerWidth / 100),
           top: 0,
           id: (this.divs.length + 1).toString(),
           divTitle: result.divTitle,
