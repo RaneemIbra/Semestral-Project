@@ -1,10 +1,12 @@
 <div class="background">
   <div class="stam">
     <h1 class="title">{{ title }}</h1>
-    <app-discussion-box
-      *ngIf="title"
-      [title]="title"
-      class="box"
-    ></app-discussion-box>
+    <div class="board">
+      <app-discussion-box
+        *ngIf="title"
+        [title]="title"
+        class="box"
+      ></app-discussion-box>
+    </div>
   </div>
 </div>

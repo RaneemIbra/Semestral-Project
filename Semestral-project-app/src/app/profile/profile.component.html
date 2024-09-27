@@ -1,4 +1,5 @@
 <div class="background">
+  <div class="overlay"></div>
   <div class="profile-container">
     <div class="profile-header">
       <div class="profile-pic-container">
@@ -11,7 +12,7 @@
         />
         <img
           [src]="profilePicUrl | async"
-          alt=""
+          alt="Profile Picture"
           class="profile-pic"
           (click)="triggerFileInput()"
         />
@@ -21,18 +22,24 @@
         <p>{{ email }}</p>
       </div>
     </div>
-    <button *ngIf="isImageSelected" class="Confirm" (click)="onUpload()">
+
+    <button *ngIf="isImageSelected" class="confirm-btn" (click)="onUpload()">
       Confirm Picture
     </button>
 
     <div class="about-user">
+      <h3>About Me</h3>
       <textarea
         [(ngModel)]="userAbout"
-        placeholder="About the user..."
+        placeholder="Tell us about yourself..."
       ></textarea>
       <button (click)="saveAbout()">Save Information</button>
     </div>
-    <h1 class="Detective-header">Detective/Ideas board</h1>
-    <div class="detective-board"></div>
+
+    <h1 class="detective-header">Detective/Ideas Board</h1>
+    <app-discussion-box
+      [title]="detectiveBoardTitle"
+      class="detective-board"
+    ></app-discussion-box>
   </div>
 </div>

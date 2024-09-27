@@ -11,16 +11,18 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DiscussionBoxComponent } from '../discussion/discussion-box/discussion-box.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, NgIf, FormsModule],
+  imports: [CommonModule, AsyncPipe, NgIf, FormsModule, DiscussionBoxComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   selectedFile: File | null = null;
+  detectiveBoardTitle: string = 'detective-board';
   private profilePicUrlSubject = new BehaviorSubject<string | null>(null);
   profilePicUrl = this.profilePicUrlSubject.asObservable();
   fullName: string = '';
