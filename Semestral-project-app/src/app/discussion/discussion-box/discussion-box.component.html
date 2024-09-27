@@ -3,6 +3,31 @@
     <button class="add-button" (click)="addDiv()">Add Div</button>
   </div>
 
+  <svg class="arrow-canvas" width="100%" height="100%">
+    <line
+      *ngFor="let arrow of arrows"
+      [attr.x1]="getDivCenterX(arrow.fromDivId)"
+      [attr.y1]="getDivCenterY(arrow.fromDivId)"
+      [attr.x2]="getDivCenterX(arrow.toDivId)"
+      [attr.y2]="getDivCenterY(arrow.toDivId)"
+      stroke="white"
+      stroke-width="2"
+      marker-end="url(#arrowhead)"
+    />
+    <defs>
+      <marker
+        id="arrowhead"
+        markerWidth="10"
+        markerHeight="7"
+        refX="10"
+        refY="3.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 3.5, 0 7" />
+      </marker>
+    </defs>
+  </svg>
+
   <div class="discussion-area">
     <div
       *ngFor="let div of divs"

@@ -31,6 +31,15 @@
     <button
       mat-button
       class="dialog-btn"
+      *ngIf="data.mode === 'view'"
+      (click)="onBuildClick()"
+    >
+      Build on
+    </button>
+
+    <button
+      mat-button
+      class="dialog-btn"
       *ngIf="data.mode === 'edit'"
       [mat-dialog-close]="data"
     >

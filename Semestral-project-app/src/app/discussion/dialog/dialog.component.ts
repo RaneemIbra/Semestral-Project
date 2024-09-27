@@ -36,4 +36,8 @@ export class DialogComponent {
   onDeleteClick(): void {
     this.dialogRef.close({ delete: true });
   }
+
+  onBuildClick(): void {
+    this.dialogRef.close({ buildOn: true });
+  }
 }

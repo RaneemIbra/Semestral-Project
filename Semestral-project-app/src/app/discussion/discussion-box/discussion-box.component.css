@@ -64,6 +64,15 @@
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
+  z-index: 2;
+}
+
+.arrow-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .inactive-div {

@@ -9,7 +9,6 @@ import {
   addDoc,
   deleteDoc,
 } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -33,11 +32,12 @@ export class DiscussionBoxComponent implements OnInit {
   }[] = [];
   activeDivId: string | null = null;
 
-  constructor(
-    private firestore: Firestore,
-    private auth: Auth,
-    private dialog: MatDialog
-  ) {}
+  arrows: {
+    fromDivId: string;
+    toDivId: string;
+  }[] = [];
+
+  constructor(private firestore: Firestore, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.isProfileMode && this.userId) {
@@ -67,34 +67,9 @@ export class DiscussionBoxComponent implements OnInit {
       this.firestore,
       `users/${userId}/detective-board`
     );
-
-    getDocs(discussionBoxCollection)
-      .then((snapshot) => {
-        this.divs = snapshot.docs.map((doc) => {
-          const data = doc.data() as {
-            left: number;
-            top: number;
-            divTitle: string;
-            text: string;
-          };
-          return {
-            left: data.left,
-            top: data.top,
-            id: doc.id,
-            divTitle: data.divTitle || '',
-            text: data.text || '',
-          };
-        });
-      })
-      .catch((error) => {
-        console.error('Error loading detective board:', error);
-      });
-  }
-
-  loadDiscussionBox(community: string): void {
-    const discussionBoxCollection = collection(
+    const arrowsCollection = collection(
       this.firestore,
-      `discussion-boxes/${community}/divs`
+      `users/${userId}/arrows`
     );
 
     getDocs(discussionBoxCollection)
@@ -114,6 +89,93 @@ export class DiscussionBoxComponent implements OnInit {
             text: data.text || '',
           };
         });
+
+        return getDocs(arrowsCollection);
+      })
+      .then((snapshot) => {
+        this.arrows = snapshot.docs
+          .map((doc) => {
+            const data = doc.data() as {
+              fromDivId: string;
+              toDivId: string;
+            };
+
+            if (
+              this.divs.find((div) => div.id === data.fromDivId) &&
+              this.divs.find((div) => div.id === data.toDivId)
+            ) {
+              return { fromDivId: data.fromDivId, toDivId: data.toDivId };
+            } else {
+              this.deleteArrowFromFirestore(data);
+              return null;
+            }
+          })
+          .filter(
+            (arrow): arrow is { fromDivId: string; toDivId: string } =>
+              arrow !== null
+          );
+
+        this.drawArrows();
+      })
+      .catch((error) => {
+        console.error('Error loading detective board:', error);
+      });
+  }
+
+  loadDiscussionBox(community: string): void {
+    const discussionBoxCollection = collection(
+      this.firestore,
+      `discussion-boxes/${community}/divs`
+    );
+    const arrowsCollection = collection(
+      this.firestore,
+      `discussion-boxes/${community}/arrows`
+    );
+
+    getDocs(discussionBoxCollection)
+      .then((snapshot) => {
+        this.divs = snapshot.docs.map((doc) => {
+          const data = doc.data() as {
+            left: number;
+            top: number;
+            divTitle: string;
+            text: string;
+          };
+          return {
+            left: data.left,
+            top: data.top,
+            id: doc.id,
+            divTitle: data.divTitle || '',
+            text: data.text || '',
+          };
+        });
+
+        return getDocs(arrowsCollection);
+      })
+      .then((snapshot) => {
+        this.arrows = snapshot.docs
+          .map((doc) => {
+            const data = doc.data() as {
+              fromDivId: string;
+              toDivId: string;
+            };
+
+            if (
+              this.divs.find((div) => div.id === data.fromDivId) &&
+              this.divs.find((div) => div.id === data.toDivId)
+            ) {
+              return { fromDivId: data.fromDivId, toDivId: data.toDivId };
+            } else {
+              this.deleteArrowFromFirestore(data);
+              return null;
+            }
+          })
+          .filter(
+            (arrow): arrow is { fromDivId: string; toDivId: string } =>
+              arrow !== null
+          );
+
+        this.drawArrows();
       })
       .catch((error) => {
         console.error('Error loading discussion box:', error);
@@ -143,12 +205,29 @@ export class DiscussionBoxComponent implements OnInit {
       });
   }
 
+  saveArrow(fromDivId: string, toDivId: string): void {
+    const arrowPath =
+      this.isProfileMode && this.userId
+        ? `users/${this.userId}/arrows`
+        : `discussion-boxes/${this.title}/arrows`;
+
+    const newArrow = { fromDivId, toDivId };
+
+    addDoc(collection(this.firestore, arrowPath), newArrow).then(() => {
+      console.log('Arrow saved successfully!');
+    });
+  }
+
   onDivClick(divId: string): void {
     if (this.activeDivId === divId) {
       this.activeDivId = null;
     } else {
       this.activeDivId = divId;
     }
+  }
+
+  drawArrows(): void {
+    this.arrows = [...this.arrows];
   }
 
   onMouseDown(event: MouseEvent, divId: string): void {
@@ -200,6 +279,8 @@ export class DiscussionBoxComponent implements OnInit {
     if (divIndex >= 0) {
       this.divs[divIndex].left = newLeft;
       this.divs[divIndex].top = newTop;
+
+      this.drawArrows();
     }
 
     event.preventDefault();
@@ -282,6 +363,8 @@ export class DiscussionBoxComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         if (result?.delete) {
           this.deleteDiv(divId, divIndex);
+        } else if (result?.buildOn) {
+          this.openAddDivDialogWithArrow(divId);
         } else if (result) {
           this.divs[divIndex].divTitle = result.divTitle;
           this.divs[divIndex].text = result.text;
@@ -298,18 +381,116 @@ export class DiscussionBoxComponent implements OnInit {
     }
   }
 
+  openAddDivDialogWithArrow(fromDivId: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Enter note details',
+        divTitle: '',
+        text: '',
+        mode: 'edit',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.divTitle && result.text) {
+        const newDiv = {
+          left: 5 * (window.innerWidth / 100),
+          top: 0,
+          id: (this.divs.length + 1).toString(),
+          divTitle: result.divTitle,
+          text: result.text,
+        };
+
+        const collectionPath =
+          this.isProfileMode && this.userId
+            ? `users/${this.userId}/detective-board`
+            : `discussion-boxes/${this.title}/divs`;
+
+        addDoc(collection(this.firestore, collectionPath), newDiv)
+          .then((docRef) => {
+            this.divs.push({ ...newDiv, id: docRef.id });
+
+            this.arrows.push({ fromDivId, toDivId: docRef.id });
+            this.drawArrows();
+
+            // Save the arrow to the database
+            this.saveArrow(fromDivId, docRef.id);
+          })
+          .catch((error) => {
+            console.error('Error adding div: ', error);
+          });
+      } else {
+        console.error('Title or text missing. Div was not added.');
+      }
+    });
+  }
+
   deleteDiv(divId: string, divIndex: number): void {
-    const discussionBoxDoc = doc(
-      this.firestore,
-      `discussion-boxes/${this.title}/divs/${divId}`
-    );
+    const collectionPath =
+      this.isProfileMode && this.userId
+        ? `users/${this.userId}/detective-board/${divId}`
+        : `discussion-boxes/${this.title}/divs/${divId}`;
+
+    const discussionBoxDoc = doc(this.firestore, collectionPath);
+
     deleteDoc(discussionBoxDoc)
       .then(() => {
         console.log('Div deleted from Firestore');
+
         this.divs.splice(divIndex, 1);
+
+        const relatedArrows = this.arrows.filter(
+          (arrow) => arrow.fromDivId === divId || arrow.toDivId === divId
+        );
+
+        relatedArrows.forEach((arrow) => {
+          this.deleteArrowFromFirestore(arrow);
+        });
+
+        this.arrows = this.arrows.filter(
+          (arrow) => arrow.fromDivId !== divId && arrow.toDivId !== divId
+        );
+
+        this.drawArrows();
       })
       .catch((error) => {
         console.error('Error deleting div from Firestore:', error);
       });
+  }
+
+  deleteArrowFromFirestore(arrow: {
+    fromDivId: string;
+    toDivId: string;
+  }): void {
+    const collectionPath =
+      this.isProfileMode && this.userId
+        ? `users/${this.userId}/arrows/${arrow.fromDivId}_${arrow.toDivId}`
+        : `discussion-boxes/${this.title}/arrows/${arrow.fromDivId}_${arrow.toDivId}`;
+
+    const arrowDoc = doc(this.firestore, collectionPath);
+    deleteDoc(arrowDoc)
+      .then(() => {
+        console.log('Arrow deleted from Firestore');
+      })
+      .catch((error) => {
+        console.error('Error deleting arrow from Firestore:', error);
+      });
+  }
+
+  getDivCenterX(divId: string): number {
+    const div = this.divs.find((d) => d.id === divId);
+    if (div) {
+      return div.left + (6 * window.innerWidth) / 100 / 2;
+    }
+    return 0;
+  }
+
+  getDivCenterY(divId: string): number {
+    const div = this.divs.find((d) => d.id === divId);
+    if (div) {
+      return div.top + (8 * window.innerHeight) / 100 / 2;
+    }
+    return 0;
   }
 }
