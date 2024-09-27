@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   email: string = '';
   userAbout: string = '';
   isImageSelected: boolean = false;
+  userId: string | null = null;
 
   constructor(
     private auth: Auth,
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
     const authUser = this.auth.currentUser;
     if (authUser) {
       this.email = authUser.email || '';
+      this.userId = authUser.uid;
 
       const uid = authUser.uid;
       const userDocRef = doc(this.firestore, `users/${uid}`);

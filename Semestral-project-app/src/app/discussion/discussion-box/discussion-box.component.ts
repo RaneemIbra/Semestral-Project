@@ -22,6 +22,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class DiscussionBoxComponent implements OnInit {
   @Input() title: string = '';
+  @Input() userId: string | null = null;
+  @Input() isProfileMode: boolean = false;
   divs: {
     left: number;
     top: number;
@@ -38,8 +40,11 @@ export class DiscussionBoxComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadDiscussionBox(this.title);
-    console.log(this.title);
+    if (this.isProfileMode && this.userId) {
+      this.loadUserDetectiveBoard(this.userId);
+    } else {
+      this.loadDiscussionBox(this.title);
+    }
   }
 
   private isDragging = false;
@@ -55,6 +60,35 @@ export class DiscussionBoxComponent implements OnInit {
       height: '350px',
       data: { title: 'Modern Dialog' },
     });
+  }
+
+  loadUserDetectiveBoard(userId: string): void {
+    const discussionBoxCollection = collection(
+      this.firestore,
+      `users/${userId}/detective-board`
+    );
+
+    getDocs(discussionBoxCollection)
+      .then((snapshot) => {
+        this.divs = snapshot.docs.map((doc) => {
+          const data = doc.data() as {
+            left: number;
+            top: number;
+            divTitle: string;
+            text: string;
+          };
+          return {
+            left: data.left,
+            top: data.top,
+            id: doc.id,
+            divTitle: data.divTitle || '',
+            text: data.text || '',
+          };
+        });
+      })
+      .catch((error) => {
+        console.error('Error loading detective board:', error);
+      });
   }
 
   loadDiscussionBox(community: string): void {
@@ -93,24 +127,20 @@ export class DiscussionBoxComponent implements OnInit {
     divTitle: string,
     text: string
   ): void {
-    const currentUser = this.auth.currentUser;
+    const collectionPath =
+      this.isProfileMode && this.userId
+        ? `users/${this.userId}/detective-board`
+        : `discussion-boxes/${this.title}/divs`;
 
-    if (currentUser) {
-      const discussionBoxDoc = doc(
-        this.firestore,
-        `discussion-boxes/${this.title}/divs/${divId}`
-      );
+    const discussionBoxDoc = doc(this.firestore, `${collectionPath}/${divId}`);
 
-      setDoc(discussionBoxDoc, { left, top, divTitle, text })
-        .then(() => {
-          console.log('Discussion box saved successfully!');
-        })
-        .catch((error) => {
-          console.error('Error saving discussion box:', error);
-        });
-    } else {
-      console.error('User is not authenticated!');
-    }
+    setDoc(discussionBoxDoc, { left, top, divTitle, text })
+      .then(() => {
+        console.log('Discussion box saved successfully!');
+      })
+      .catch((error) => {
+        console.error('Error saving discussion box:', error);
+      });
   }
 
   onDivClick(divId: string): void {
@@ -216,10 +246,12 @@ export class DiscussionBoxComponent implements OnInit {
           text: result.text,
         };
 
-        addDoc(
-          collection(this.firestore, `discussion-boxes/${this.title}/divs`),
-          newDiv
-        )
+        const collectionPath =
+          this.isProfileMode && this.userId
+            ? `users/${this.userId}/detective-board`
+            : `discussion-boxes/${this.title}/divs`;
+
+        addDoc(collection(this.firestore, collectionPath), newDiv)
           .then((docRef) => {
             this.divs.push({ ...newDiv, id: docRef.id });
           })
