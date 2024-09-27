@@ -26,7 +26,7 @@
   height: 120vh;
   margin-bottom: 5vh;
   max-width: 90vw;
-  background-color: #2b2b2b;
+  background-color: #0b0c1d;
   opacity: 0.8;
   padding: 30px;
   padding-bottom: 0;
@@ -97,7 +97,7 @@
 .about-user {
   margin-top: 20px;
   padding: 20px;
-  background-color: #333333;
+  background-color: #0c0e22;
   border-radius: 10px;
   width: 100%;
   text-align: center;
@@ -110,13 +110,13 @@
 }
 
 .about-user textarea {
-  width: 100%;
+  width: 95%;
   height: 100px;
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #fa1e4e;
   font-size: 16px;
-  background-color: #222;
+  background-color: #202230;
   color: #fff;
   resize: none;
 }
@@ -149,7 +149,7 @@
 .detective-board {
   margin-top: 15px;
   padding: 20px;
-  background-color: #333333;
+  background-color: #0c0e22;
   border-radius: 10px;
   border: 2px solid #fa1e4e;
   width: 100%;
