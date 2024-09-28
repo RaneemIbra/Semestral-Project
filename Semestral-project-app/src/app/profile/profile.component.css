@@ -26,7 +26,7 @@
   height: 120vh;
   margin-bottom: 5vh;
   max-width: 90vw;
-  background-color: #0b0c1d;
+  background-color: #1d1d25;
   opacity: 0.8;
   padding: 30px;
   padding-bottom: 0;
@@ -97,7 +97,7 @@
 .about-user {
   margin-top: 20px;
   padding: 20px;
-  background-color: #0c0e22;
+  background-color: #1d1d25;
   border-radius: 10px;
   width: 100%;
   text-align: center;
@@ -149,7 +149,7 @@
 .detective-board {
   margin-top: 15px;
   padding: 20px;
-  background-color: #0c0e22;
+  background-color: #1d1d25;
   border-radius: 10px;
   border: 2px solid #fa1e4e;
   width: 100%;
