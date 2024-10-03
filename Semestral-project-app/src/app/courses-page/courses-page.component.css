@@ -14,13 +14,14 @@
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   gap: 2%;
   width: 100%;
+  height: 40vh;
   padding: 10px;
   box-sizing: border-box;
 }
 
 .course {
   width: 100%;
-  height: 70%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,4 +1,3 @@
-<div class="course">
-  <img [src]="imageSrc" (click)="onImageClick()" />
-  <h2 [ngClass]="cssClass">{{ title }}</h2>
+<div class="course" (click)="onImageClick()">
+  <div class="course-content" [ngClass]="cssClass">{{ title }}</div>
 </div>
