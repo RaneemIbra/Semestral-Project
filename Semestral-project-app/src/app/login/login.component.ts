@@ -97,6 +97,7 @@ export class LoginComponent implements AfterViewInit {
       signInWithEmailAndPassword(this.auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
+          console.log('User ID:', user.uid);
           this.router.navigate(['/home']);
         })
         .catch((error) => {

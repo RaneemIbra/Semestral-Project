@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { Auth } from '@angular/fire/auth';
+import { AuthService } from '../services/auth.service';
 
 declare global {
   interface Window {
@@ -18,7 +20,24 @@ declare global {
 export class HeaderComponent {
   @Output() refreshPage = new EventEmitter<void>();
 
+  constructor(
+    private auth: Auth,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   onRefreshPage() {
     this.refreshPage.emit();
+  }
+
+  async onLogout() {
+    try {
+      this.authService.clearSubscriptions();
+      await this.auth.signOut();
+      console.log('User signed out successfully');
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   }
 }

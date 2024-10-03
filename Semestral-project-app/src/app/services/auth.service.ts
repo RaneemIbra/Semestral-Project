@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '@firebase/auth-types';
 
 @Injectable({
@@ -9,9 +9,13 @@ import { User } from '@firebase/auth-types';
 })
 export class AuthService {
   private currentUserId: string | null = null;
+  public authState$: Observable<User | null>;
+  private subscriptions: Subscription[] = [];
 
   constructor(private auth: Auth, private firestore: Firestore) {
-    authState(this.auth).subscribe((user: User | null) => {
+    this.authState$ = authState(this.auth);
+
+    this.authState$.subscribe((user: User | null) => {
       if (user) {
         this.currentUserId = user.uid;
       } else {
@@ -27,5 +31,18 @@ export class AuthService {
   getUserData(userId: string): Observable<any> {
     const userRef = doc(this.firestore, `users/${userId}`);
     return docData(userRef);
+  }
+
+  trackSubscription(sub: Subscription) {
+    this.subscriptions.push(sub);
+  }
+
+  clearSubscriptions() {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
+    this.subscriptions = [];
   }
 }

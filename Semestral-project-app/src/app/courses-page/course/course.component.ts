@@ -1,14 +1,22 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   Firestore,
   doc,
   updateDoc,
   increment,
   arrayUnion,
+  runTransaction,
 } from '@angular/fire/firestore';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { getFirestore, runTransaction } from 'firebase/firestore';
 
 @Component({
   selector: 'app-course',
@@ -17,7 +25,7 @@ import { getFirestore, runTransaction } from 'firebase/firestore';
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
 })
-export class CourseComponent {
+export class CourseComponent implements OnInit, OnDestroy {
   @Input() imageSrc?: string;
   @Input() title?: string;
   @Input() cssClass?: string;
@@ -28,49 +36,66 @@ export class CourseComponent {
   @Output() imageClick = new EventEmitter<void>();
 
   isEnrolled: boolean = false;
+  private userSubscription!: Subscription;
+  userId: string | null = null;
 
   constructor(private firestore: Firestore, private auth: AuthService) {}
 
   ngOnInit() {
-    const userId = this.auth.getCurrentUserId();
-    if (userId) {
-      this.auth.getUserData(userId).subscribe((docSnap: any) => {
-        const enrolledCourses = docSnap?.enrolledCourses || [];
-        this.isEnrolled = enrolledCourses.includes(this.courseId);
-      });
-    } else {
-      console.error('No user ID found');
+    this.userSubscription = this.auth.authState$.subscribe((user) => {
+      if (user) {
+        this.userId = user.uid;
+        this.loadUserData();
+      } else {
+        this.userId = null;
+        this.resetEnrollmentState();
+      }
+    });
+    this.auth.trackSubscription(this.userSubscription);
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
+  loadUserData() {
+    if (this.userId && this.courseId) {
+      const sub = this.auth
+        .getUserData(this.userId)
+        .subscribe((docSnap: any) => {
+          const enrolledCourses = docSnap?.enrolledCourses || [];
+          this.isEnrolled = enrolledCourses.includes(this.courseId);
+        });
+      this.auth.trackSubscription(sub);
     }
   }
 
   enroll(event: Event) {
     event.stopPropagation();
-
     if (!this.courseId) {
       console.error('Course ID is not defined.');
       return;
     }
 
     if (this.currentStudents! < this.maxStudents!) {
-      const userId = this.auth.getCurrentUserId();
-
-      if (!userId) {
+      if (!this.userId) {
         console.error('No user ID found');
         return;
       }
 
-      const userDocRef = doc(this.firestore, `users/${userId}`);
+      const userDocRef = doc(this.firestore, `users/${this.userId}`);
       const courseDocRef = doc(this.firestore, `courses/${this.courseId}`);
 
-      const firestore = getFirestore();
-      runTransaction(firestore, async (transaction) => {
+      console.log(`Enrolling user ${this.userId} in course ${this.courseId}`);
+
+      runTransaction(this.firestore, async (transaction) => {
         const courseDoc = await transaction.get(courseDocRef);
         if (!courseDoc.exists()) {
           throw 'Course does not exist!';
         }
-
         transaction.update(courseDocRef, { currentStudents: increment(1) });
-
         transaction.update(userDocRef, {
           enrolledCourses: arrayUnion(this.courseId),
         });
@@ -93,5 +118,9 @@ export class CourseComponent {
     } else {
       console.log('You must enroll to access the preview');
     }
+  }
+
+  resetEnrollmentState() {
+    this.isEnrolled = false;
   }
 }
