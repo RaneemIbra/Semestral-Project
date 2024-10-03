@@ -1,3 +1,10 @@
-<div class="course" (click)="onImageClick()">
-  <div class="course-content" [ngClass]="cssClass">{{ title }}</div>
+<div class="course" (click)="navigateToPreview()">
+  <div class="course-content">
+    <h2>{{ title }}</h2>
+    <p>Max Students: {{ maxStudents }}</p>
+    <p>Current Students: {{ currentStudents }}</p>
+    <p>Teacher: {{ teacherName }}</p>
+    <button *ngIf="!isEnrolled" (click)="enroll($event)">Enroll</button>
+    <p *ngIf="isEnrolled">You are enrolled in this course</p>
+  </div>
 </div>

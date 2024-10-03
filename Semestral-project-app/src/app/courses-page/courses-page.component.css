@@ -1,6 +1,6 @@
 .background {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-position: center;
   background-size: cover;
   margin: 0;
@@ -11,40 +11,34 @@
 .courseContainer {
   margin-top: 5vh;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-  gap: 2%;
+  grid-template-columns: 1fr;
+  gap: 20px;
   width: 100%;
-  height: 40vh;
-  padding: 10px;
+  padding: 40px;
   box-sizing: border-box;
 }
 
 .course {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.course img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .header {
   margin-top: 10vh;
-  margin-left: 44vw;
+  text-align: center;
+  font-size: 3rem;
   color: white;
 }
 
-.hidden {
+/* .hidden {
   opacity: 0;
   filter: blur(5px);
   transform: translateY(-100%);
   transition: all 1s;
-}
+} */
 
 .show {
   opacity: 1;
