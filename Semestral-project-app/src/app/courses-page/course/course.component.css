@@ -1,13 +1,13 @@
 .course {
   position: relative;
   width: 100%;
-  min-height: 150px; /* Adjust this height as needed to make the content visible */
+  min-height: 150px;
   border-radius: 20px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(250, 30, 78, 0.8); /* Background with transparency */
+  background-color: rgba(250, 30, 78, 0.8);
   cursor: pointer;
   padding: 20px;
 }
@@ -19,41 +19,48 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(
-    250,
-    30,
-    78,
-    0.5
-  ); /* Slightly transparent background */
+  background-color: rgba(250, 30, 78, 0.5);
   z-index: 0;
 }
 
 .course-content {
   position: relative;
-  z-index: 1; /* Ensure content is above the background */
+  z-index: 1;
   color: white;
   font-family: sans-serif;
   font-size: 1.2rem;
   width: 100%;
-  text-align: center;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
-.course-content h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
+.course-info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2vh;
 }
 
-.course-content p {
+.course-info h2,
+.course-info p {
+  margin: 0 10px;
   font-size: 1.1rem;
-  margin: 5px 0;
 }
 
-.course-content button {
-  margin-top: 10px;
+.course-info h2 {
+  font-size: 1.6rem;
+}
+
+.enroll-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.enroll-section button {
   padding: 10px 20px;
   font-size: 1.1rem;
   background-color: white;
@@ -64,8 +71,13 @@
   transition: background-color 0.3s ease;
 }
 
-.course-content button:hover {
+.enroll-section button:hover {
   background-color: #f77a9e;
+}
+
+.enroll-section p {
+  font-size: 1.1rem;
+  margin-top: 10px;
 }
 
 .course img {

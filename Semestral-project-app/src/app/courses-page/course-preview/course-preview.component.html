@@ -1,20 +1,35 @@
 <div class="background">
-  <div class="preview">
-    <app-course
-      *ngIf="course"
-      [imageSrc]="course.imageSrc"
-      [title]="course.title"
-      [cssClass]="course.cssClass"
-    ></app-course>
+  <div class="preview" *ngIf="course; else loading">
+    <img
+      [src]="course.imageSrc"
+      alt="{{ course.title }}"
+      class="course-image"
+    />
+
+    <h1 class="course-title">{{ course.title }}</h1>
+
+    <div class="stacked-divs">
+      <div class="custom-div">
+        <h1>div</h1>
+      </div>
+      <div class="custom-div">
+        <h1>div</h1>
+      </div>
+      <div
+        class="discussion-div custom-div"
+        (click)="navigateToDiscussion(course?.title)"
+      >
+        <h1 class="Community-Title">{{ course?.title }} Disscussion Room</h1>
+        <h2>
+          Check out the discussion room for the {{ course?.title }} course
+        </h2>
+        <h2>And connect with others to build a world full of great ideas</h2>
+        <i class="fa-regular fa-comments fa-fade icons"></i>
+      </div>
+    </div>
   </div>
-  <div class="discussion-div" (click)="navigateToDiscussion(course?.title)">
-    <h1 class="Community-Title">{{ course?.title }} Disscussion Room</h1>
-    <h2>Check out the discussion room for the {{ course?.title }} course</h2>
-    <h2>And connect with others to build a world full of great ideas</h2>
-    <i class="fa-regular fa-comments fa-fade icons"></i>
-  </div>
-  <div class="course-mat">
-    <h1 class="mat-title">Course Materials</h1>
-    <div class="material"></div>
-  </div>
+
+  <ng-template #loading>
+    <p>Loading course information...</p>
+  </ng-template>
 </div>
