@@ -9,17 +9,36 @@
     <h1 class="course-title">{{ course.title }}</h1>
 
     <div class="stacked-divs">
+      <!-- First div with an Edit button -->
       <div class="custom-div">
         <h1>div</h1>
+        <button
+          *ngIf="userCanEdit"
+          class="edit-button"
+          (click)="editFirstDiv()"
+        >
+          Edit
+        </button>
       </div>
+
+      <!-- Second div with an Edit button -->
       <div class="custom-div">
         <h1>div</h1>
+        <button
+          *ngIf="userCanEdit"
+          class="edit-button"
+          (click)="editSecondDiv()"
+        >
+          Edit
+        </button>
       </div>
+
+      <!-- Third div (discussion) without an edit button -->
       <div
         class="discussion-div custom-div"
         (click)="navigateToDiscussion(course?.title)"
       >
-        <h1 class="Community-Title">{{ course?.title }} Disscussion Room</h1>
+        <h1 class="Community-Title">{{ course?.title }} Discussion Room</h1>
         <h2>
           Check out the discussion room for the {{ course?.title }} course
         </h2>

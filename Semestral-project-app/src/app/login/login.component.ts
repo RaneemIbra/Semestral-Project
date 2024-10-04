@@ -62,6 +62,9 @@ export class LoginComponent implements AfterViewInit {
           await setDoc(userDocRef, {
             name,
             email,
+            enrolledCourses: [],
+            about: '',
+            modify: false,
             profilePicUrl: defaultProfilePicUrl,
           });
           const container = this.el.nativeElement.querySelector('#container');

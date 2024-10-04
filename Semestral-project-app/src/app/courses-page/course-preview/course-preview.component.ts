@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseComponent } from '../course/course.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Auth, User } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-course-preview',
@@ -14,9 +16,15 @@ import { Router } from '@angular/router';
 })
 export class CoursePreviewComponent implements OnInit {
   course?: Course | null = null;
+  userCanEdit: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
-  //test
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: Auth,
+    private firestore: Firestore
+  ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const title = params.get('title');
@@ -25,6 +33,32 @@ export class CoursePreviewComponent implements OnInit {
         this.loadCourse(title);
       }
     });
+
+    this.auth.onAuthStateChanged((user: User | null) => {
+      if (user) {
+        this.checkUserPermissions(user.uid);
+      }
+    });
+  }
+
+  async checkUserPermissions(userId: string) {
+    const userDocRef = doc(this.firestore, `users/${userId}`);
+    const userSnapshot = await getDoc(userDocRef);
+
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.data();
+      this.userCanEdit = userData['modify'] || false;
+    } else {
+      console.error('No such user document!');
+    }
+  }
+
+  editFirstDiv() {
+    console.log('Editing first div');
+  }
+
+  editSecondDiv() {
+    console.log('Editing second div');
   }
 
   navigateToDiscussion(title: string | undefined): void {
