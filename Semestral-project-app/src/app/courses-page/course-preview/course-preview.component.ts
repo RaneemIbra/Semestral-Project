@@ -4,7 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseComponent } from '../course/course.component';
 import { CommonModule } from '@angular/common';
 import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, Unsubscribe } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  getDoc,
+  updateDoc,
+  Unsubscribe,
+} from '@angular/fire/firestore';
+import {
+  Storage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from '@angular/fire/storage';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,12 +31,14 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
   userCanEdit: boolean = false;
   private authStateSub!: Unsubscribe;
   private courseDataSub!: Subscription;
+  selectedFile: File | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private auth: Auth,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private storage: Storage
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +88,42 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
       });
   }
 
+  editFirstDiv(event: any) {
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile && this.course) {
+      this.uploadFile(this.selectedFile, 'firstDivFiles');
+    }
+  }
+
+  editSecondDiv(event: any) {
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile && this.course) {
+      this.uploadFile(this.selectedFile, 'secondDivFiles');
+    }
+  }
+
+  async uploadFile(file: File, divField: 'firstDivFiles' | 'secondDivFiles') {
+    if (this.course) {
+      const storageRef = ref(
+        this.storage,
+        `courseFiles/${this.course.courseId}/${file.name}`
+      );
+      await uploadBytes(storageRef, file);
+      const downloadUrl = await getDownloadURL(storageRef);
+      const courseDocRef = doc(
+        this.firestore,
+        `courses/${this.course.courseId}`
+      );
+      const updatedFiles = [...(this.course[divField] || []), downloadUrl];
+      await updateDoc(courseDocRef, { [divField]: updatedFiles });
+      this.loadCourse(this.course.courseId);
+    }
+  }
+
+  openFile(url: string) {
+    window.open(url, '_blank');
+  }
+
   ngOnDestroy(): void {
     if (this.authStateSub) {
       this.authStateSub();
@@ -81,14 +131,6 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
     if (this.courseDataSub) {
       this.courseDataSub.unsubscribe();
     }
-  }
-
-  editFirstDiv() {
-    console.log('Editing first div');
-  }
-
-  editSecondDiv() {
-    console.log('Editing second div');
   }
 
   navigateToDiscussion(title: string | undefined): void {

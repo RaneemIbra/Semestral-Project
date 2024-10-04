@@ -1,35 +1,61 @@
 <div class="background">
   <div class="preview" *ngIf="course; else loading">
-    <!-- Use the safe navigation operator ? to avoid the NG3 error -->
     <img
       [src]="course?.imageSrc"
       alt="{{ course?.title }}"
       class="course-image"
     />
-
     <h1 class="course-title">{{ course?.title }}</h1>
 
     <div class="stacked-divs">
       <div class="custom-div">
-        <h1>div</h1>
-        <button
-          *ngIf="userCanEdit"
-          class="edit-button"
-          (click)="editFirstDiv()"
-        >
-          Edit
-        </button>
+        <h1>Syllabus</h1>
+
+        <label for="file-upload-1" class="custom-file-upload">
+          Upload Syllabus
+        </label>
+        <input
+          id="file-upload-1"
+          type="file"
+          accept=".pdf"
+          (change)="editFirstDiv($event)"
+        />
+
+        <div class="pdf-files-container">
+          <div
+            *ngFor="let file of course?.firstDivFiles"
+            class="pdf-file"
+            (click)="openFile(file)"
+          >
+            <img src="../../../assets/pdf-file.png" alt="PDF" />
+            <span>PDF File</span>
+          </div>
+        </div>
       </div>
 
       <div class="custom-div">
-        <h1>div</h1>
-        <button
-          *ngIf="userCanEdit"
-          class="edit-button"
-          (click)="editSecondDiv()"
-        >
-          Edit
-        </button>
+        <h1>Course Material</h1>
+
+        <label for="file-upload-2" class="custom-file-upload">
+          Upload Course Material
+        </label>
+        <input
+          id="file-upload-2"
+          type="file"
+          accept=".pdf"
+          (change)="editSecondDiv($event)"
+        />
+
+        <div class="pdf-files-container">
+          <div
+            *ngFor="let file of course?.secondDivFiles"
+            class="pdf-file"
+            (click)="openFile(file)"
+          >
+            <img src="../../../assets/pdf-icon.png" alt="PDF" />
+            <span>Course Syllabus</span>
+          </div>
+        </div>
       </div>
 
       <div

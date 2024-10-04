@@ -39,13 +39,15 @@
 }
 
 .custom-div {
-  position: relative; /* Needed to position the edit button inside the div */
+  position: relative;
   width: 90vw;
   height: 30vh;
   background-color: #fa1e4e;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
   margin: 30px 0;
   box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset,
     rgba(255, 255, 255, 0.15) 0px -36px 30px 0px inset,
@@ -55,11 +57,66 @@
     rgba(255, 255, 255, 0.09) 0px 16px 8px,
     rgba(255, 255, 255, 0.09) 0px 32px 16px;
   border-radius: 30px;
+  overflow: hidden;
 }
 
 .custom-div h1 {
   color: white;
   font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.pdf-files-container {
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.pdf-file {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 10px;
+  height: 100px;
+}
+
+.pdf-file img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.pdf-file span {
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* Hide the default file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Custom file upload button */
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #fa1e4e;
+  color: white;
+  font-size: 1rem;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: #f77a9e;
 }
 
 .edit-button {
