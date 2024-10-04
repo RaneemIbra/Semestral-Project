@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Course } from '../course/course.model';
-import { ActivatedRoute } from '@angular/router';
-import { Firestore, doc, docData, getDoc } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CourseComponent } from '../course/course.component';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { Auth, User } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
+import { Firestore, doc, getDoc, Unsubscribe } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-course-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CourseComponent, CommonModule],
   templateUrl: './course-preview.component.html',
-  styleUrls: ['./course-preview.component.css'],
+  styleUrl: './course-preview.component.css',
 })
-export class CoursePreviewComponent implements OnInit {
+export class CoursePreviewComponent implements OnInit, OnDestroy {
   course?: Course | null = null;
   userCanEdit: boolean = false;
+  private authStateSub!: Unsubscribe;
+  private courseDataSub!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,39 +35,51 @@ export class CoursePreviewComponent implements OnInit {
       }
     });
 
-    this.auth.onAuthStateChanged((user: User | null) => {
+    this.authStateSub = onAuthStateChanged(this.auth, (user: User | null) => {
       if (user) {
         this.checkUserPermissions(user.uid);
+      } else {
+        this.userCanEdit = false;
+        this.router.navigate(['/login']);
       }
     });
   }
 
-  loadCourse(title: string): void {
-    const courseDocRef = doc(this.firestore, `courses/${title}`);
-    docData(courseDocRef).subscribe(
-      (courseData: Course | undefined) => {
-        if (courseData) {
-          this.course = courseData;
-          console.log('Course loaded:', this.course);
-        } else {
-          console.error('No such course found in the database');
-        }
-      },
-      (error: any) => {
-        console.error('Error fetching course:', error);
+  async checkUserPermissions(userId: string) {
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`);
+      const userSnapshot = await getDoc(userDocRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        this.userCanEdit = userData['modify'] || false;
       }
-    );
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   }
 
-  async checkUserPermissions(userId: string) {
-    const userDocRef = doc(this.firestore, `users/${userId}`);
-    const userSnapshot = await getDoc(userDocRef);
+  loadCourse(title: string): void {
+    const courseDocRef = doc(this.firestore, `courses/${title}`);
+    getDoc(courseDocRef)
+      .then((docSnap) => {
+        if (docSnap.exists()) {
+          this.course = docSnap.data() as Course;
+        } else {
+          console.error('Course not found');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching course:', error);
+      });
+  }
 
-    if (userSnapshot.exists()) {
-      const userData = userSnapshot.data();
-      this.userCanEdit = userData['modify'] || false;
-    } else {
-      console.error('No such user document!');
+  ngOnDestroy(): void {
+    if (this.authStateSub) {
+      this.authStateSub();
+    }
+    if (this.courseDataSub) {
+      this.courseDataSub.unsubscribe();
     }
   }
 
