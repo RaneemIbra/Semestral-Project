@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseComponent } from '../course/course.component';
 import { CommonModule } from '@angular/common';
 import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
+import { deleteObject } from '@angular/fire/storage';
 import {
   Firestore,
   doc,
@@ -92,6 +93,7 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
     this.selectedFile = event.target.files[0];
     if (this.selectedFile && this.course) {
       this.uploadFile(this.selectedFile, 'firstDivFiles');
+      this.adjustDivHeight('firstDivFiles');
     }
   }
 
@@ -99,6 +101,34 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
     this.selectedFile = event.target.files[0];
     if (this.selectedFile && this.course) {
       this.uploadFile(this.selectedFile, 'secondDivFiles');
+      this.adjustDivHeight('secondDivFiles');
+      console.log('what????');
+    }
+  }
+
+  adjustDivHeight(divField: 'firstDivFiles' | 'secondDivFiles') {
+    const filesCount = this.course?.[divField]?.length || 0;
+
+    const minHeight = 30;
+    const heightPerFile = 5;
+
+    const containerClass =
+      divField === 'firstDivFiles'
+        ? '.first-div-container'
+        : '.second-div-container';
+
+    const container = document.querySelector(containerClass);
+
+    if (container) {
+      const newHeight = Math.max(
+        minHeight,
+        minHeight + filesCount * heightPerFile
+      );
+      (container as HTMLElement).style.height = `${newHeight}vh`;
+
+      console.log(`New height for ${divField}: ${newHeight}vh`);
+    } else {
+      console.warn(`Container not found for ${divField}`);
     }
   }
 
@@ -136,6 +166,46 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
   navigateToDiscussion(title: string | undefined): void {
     if (title) {
       this.router.navigate(['/discussionPreview', title]);
+    }
+  }
+
+  async deleteFile(
+    fileUrl: string,
+    divField: 'firstDivFiles' | 'secondDivFiles'
+  ) {
+    if (this.course && this.course.courseId) {
+      try {
+        const decodedUrl = decodeURIComponent(fileUrl);
+        const fileName = decodedUrl.split('/').pop()?.split('?').shift();
+
+        if (!fileName) {
+          console.error('Unable to extract file name from URL');
+          return;
+        }
+
+        const storageRef = ref(
+          this.storage,
+          `courseFiles/${this.course.courseId}/${fileName}`
+        );
+        await deleteObject(storageRef);
+
+        const updatedFiles = (this.course[divField] || []).filter(
+          (file: string) => file !== fileUrl
+        );
+        const courseDocRef = doc(
+          this.firestore,
+          `courses/${this.course.courseId}`
+        );
+        await updateDoc(courseDocRef, { [divField]: updatedFiles });
+
+        this.course[divField] = updatedFiles;
+
+        this.adjustDivHeight(divField);
+
+        console.log('File successfully deleted and height adjusted.');
+      } catch (error) {
+        console.error('Error deleting file:', error);
+      }
     }
   }
 }

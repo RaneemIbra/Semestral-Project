@@ -11,7 +11,12 @@
       <div class="custom-div">
         <h1>Syllabus</h1>
 
-        <label for="file-upload-1" class="custom-file-upload">
+        <!-- Conditionally show the upload button based on userCanEdit -->
+        <label
+          *ngIf="userCanEdit"
+          for="file-upload-1"
+          class="custom-file-upload"
+        >
           Upload Syllabus
         </label>
         <input
@@ -19,16 +24,25 @@
           type="file"
           accept=".pdf"
           (change)="editFirstDiv($event)"
+          *ngIf="userCanEdit"
         />
 
-        <div class="pdf-files-container">
-          <div
-            *ngFor="let file of course?.firstDivFiles"
-            class="pdf-file"
-            (click)="openFile(file)"
-          >
-            <img src="../../../assets/pdf-file.png" alt="PDF" />
-            <span>PDF File</span>
+        <div class="pdf-files-container first-div-container">
+          <div *ngFor="let file of course?.firstDivFiles" class="pdf-file">
+            <!-- Delete button appears only for users with permission -->
+
+            <!-- File display -->
+            <div (click)="openFile(file)">
+              <img src="../../../assets/pdf-file.png" alt="PDF" />
+              <span>PDF File</span>
+            </div>
+            <button
+              *ngIf="userCanEdit"
+              class="delete-btn"
+              (click)="deleteFile(file, 'firstDivFiles')"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -36,7 +50,12 @@
       <div class="custom-div">
         <h1>Course Material</h1>
 
-        <label for="file-upload-2" class="custom-file-upload">
+        <!-- Conditionally show the upload button based on userCanEdit -->
+        <label
+          *ngIf="userCanEdit"
+          for="file-upload-2"
+          class="custom-file-upload"
+        >
           Upload Course Material
         </label>
         <input
@@ -44,16 +63,25 @@
           type="file"
           accept=".pdf"
           (change)="editSecondDiv($event)"
+          *ngIf="userCanEdit"
         />
 
-        <div class="pdf-files-container">
-          <div
-            *ngFor="let file of course?.secondDivFiles"
-            class="pdf-file"
-            (click)="openFile(file)"
-          >
-            <img src="../../../assets/pdf-icon.png" alt="PDF" />
-            <span>Course Syllabus</span>
+        <div class="pdf-files-container second-div-container">
+          <div *ngFor="let file of course?.secondDivFiles" class="pdf-file">
+            <!-- Delete button appears only for users with permission -->
+
+            <!-- File display -->
+            <div (click)="openFile(file)">
+              <img src="../../../assets/pdf-file.png" alt="PDF" />
+              <span>Course Material</span>
+            </div>
+            <button
+              *ngIf="userCanEdit"
+              class="delete-btn"
+              (click)="deleteFile(file, 'secondDivFiles')"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
