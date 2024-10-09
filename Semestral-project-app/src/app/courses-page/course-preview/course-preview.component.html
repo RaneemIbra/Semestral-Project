@@ -11,7 +11,6 @@
       <div class="custom-div">
         <h1>Syllabus</h1>
 
-        <!-- Conditionally show the upload button based on userCanEdit -->
         <label
           *ngIf="userCanEdit"
           for="file-upload-1"
@@ -29,9 +28,6 @@
 
         <div class="pdf-files-container first-div-container">
           <div *ngFor="let file of course?.firstDivFiles" class="pdf-file">
-            <!-- Delete button appears only for users with permission -->
-
-            <!-- File display -->
             <div (click)="openFile(file)">
               <img src="../../../assets/pdf-file.png" alt="PDF" />
               <span>PDF File</span>
@@ -50,7 +46,6 @@
       <div class="custom-div">
         <h1>Course Material</h1>
 
-        <!-- Conditionally show the upload button based on userCanEdit -->
         <label
           *ngIf="userCanEdit"
           for="file-upload-2"
@@ -68,9 +63,6 @@
 
         <div class="pdf-files-container second-div-container">
           <div *ngFor="let file of course?.secondDivFiles" class="pdf-file">
-            <!-- Delete button appears only for users with permission -->
-
-            <!-- File display -->
             <div (click)="openFile(file)">
               <img src="../../../assets/pdf-file.png" alt="PDF" />
               <span>Course Material</span>
