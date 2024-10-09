@@ -6,6 +6,6 @@ export interface Course {
   maxStudents: number;
   currentStudents: number;
   teacherName: string;
-  firstDivFiles?: string[];
-  secondDivFiles?: string[];
+  firstDivFiles?: { url: string; displayName: string }[];
+  secondDivFiles?: { url: string; displayName: string }[];
 }

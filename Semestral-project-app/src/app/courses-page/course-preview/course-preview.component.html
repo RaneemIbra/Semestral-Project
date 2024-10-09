@@ -8,8 +8,9 @@
     <h1 class="course-title">{{ course?.title }}</h1>
 
     <div class="stacked-divs">
+      <!-- Syllabus Section -->
       <div class="custom-div">
-        <h1>Syllabus</h1>
+        <h1>Course Information</h1>
 
         <label
           *ngIf="userCanEdit"
@@ -22,20 +23,48 @@
           id="file-upload-1"
           type="file"
           accept=".pdf"
-          (change)="editFirstDiv($event)"
+          (change)="onFileSelected($event, 'firstDivFiles')"
           *ngIf="userCanEdit"
         />
 
+        <!-- Input for custom name -->
+        <div
+          *ngIf="selectedFile && selectedDiv === 'firstDivFiles'"
+          class="file-name-section"
+        >
+          <label for="customName" class="file-name-label"
+            >Enter display name:</label
+          >
+          <input
+            id="customName"
+            type="text"
+            [(ngModel)]="customFileName"
+            placeholder="Enter name"
+            class="file-name-input"
+          />
+          <div class="button-group">
+            <button
+              class="upload-btn"
+              (click)="uploadFileWithCustomName('firstDivFiles')"
+            >
+              Upload File
+            </button>
+            <button class="cancel-btn" (click)="cancelFileSelection()">
+              Cancel
+            </button>
+          </div>
+        </div>
+
         <div class="pdf-files-container first-div-container">
           <div *ngFor="let file of course?.firstDivFiles" class="pdf-file">
-            <div (click)="openFile(file)">
+            <div (click)="openFile(file.url)" class="inner-div">
               <img src="../../../assets/pdf-file.png" alt="PDF" />
-              <span>PDF File</span>
+              <span>{{ file.displayName }}</span>
             </div>
             <button
               *ngIf="userCanEdit"
               class="delete-btn"
-              (click)="deleteFile(file, 'firstDivFiles')"
+              (click)="deleteFile(file.url, 'firstDivFiles')"
             >
               Delete
             </button>
@@ -43,6 +72,7 @@
         </div>
       </div>
 
+      <!-- Course Material Section -->
       <div class="custom-div">
         <h1>Course Material</h1>
 
@@ -57,20 +87,49 @@
           id="file-upload-2"
           type="file"
           accept=".pdf"
-          (change)="editSecondDiv($event)"
+          (change)="onFileSelected($event, 'secondDivFiles')"
           *ngIf="userCanEdit"
         />
 
+        <!-- Input for custom name -->
+        <div
+          *ngIf="selectedFile && selectedDiv === 'secondDivFiles'"
+          class="file-name-section"
+        >
+          <label for="customName" class="file-name-label"
+            >Enter display name:</label
+          >
+          <input
+            id="customName"
+            type="text"
+            [(ngModel)]="customFileName"
+            placeholder="Enter name"
+            class="file-name-input"
+          />
+          <div class="button-group">
+            <button
+              class="upload-btn"
+              (click)="uploadFileWithCustomName('secondDivFiles')"
+            >
+              Upload File
+            </button>
+            <!-- New Cancel Button -->
+            <button class="cancel-btn" (click)="cancelFileSelection()">
+              Cancel
+            </button>
+          </div>
+        </div>
+
         <div class="pdf-files-container second-div-container">
           <div *ngFor="let file of course?.secondDivFiles" class="pdf-file">
-            <div (click)="openFile(file)">
+            <div (click)="openFile(file.url)">
               <img src="../../../assets/pdf-file.png" alt="PDF" />
-              <span>Course Material</span>
+              <span>{{ file.displayName }}</span>
             </div>
             <button
               *ngIf="userCanEdit"
               class="delete-btn"
-              (click)="deleteFile(file, 'secondDivFiles')"
+              (click)="deleteFile(file.url, 'secondDivFiles')"
             >
               Delete
             </button>

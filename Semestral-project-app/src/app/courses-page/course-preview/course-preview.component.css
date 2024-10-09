@@ -96,7 +96,9 @@
 
 .pdf-file span {
   color: white;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
+  margin-left: 2vw;
+  font-weight: bold;
 }
 
 /* Hide the default file input */
@@ -109,6 +111,7 @@ input[type="file"] {
   display: inline-block;
   padding: 10px 20px;
   cursor: pointer;
+  font-weight: bold;
   background-color: #fa1e4e;
   color: white;
   font-size: 1rem;
@@ -127,6 +130,7 @@ input[type="file"] {
   right: 10px;
   background-color: white;
   color: #fa1e4e;
+  font-weight: bold;
   border: none;
   padding: 10px 15px;
   font-size: 1rem;
@@ -159,13 +163,14 @@ h2 {
 }
 
 .delete-btn {
-  background-color: #f77a9e;
+  background-color: #fa1e4e;
   color: white;
   border: none;
   padding: 5px 15px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   border-radius: 20px;
+  font-weight: bold;
   border: solid 2px black;
   transition: background-color 0.3s ease, transform 0.3s ease;
   margin-left: auto;
@@ -173,7 +178,7 @@ h2 {
 }
 
 .delete-btn:hover {
-  background-color: #fa1e4e;
+  background-color: #f77a9e;
   transform: scale(1.05);
 }
 
@@ -186,4 +191,56 @@ h2 {
   height: 100px;
   margin-top: 2vh;
   padding: 0 10px;
+}
+
+.file-name-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.file-name-label {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.file-name-input {
+  padding: 10px 15px;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s ease;
+}
+
+.file-name-input:focus {
+  outline: none;
+  background-color: #f7d7e0;
+}
+
+.upload-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  margin-left: 1vw;
+  background-color: #fa1e4e;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.upload-btn:hover,
+.cancel-btn:hover {
+  background-color: #f77a9e;
+}
+
+.inner-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

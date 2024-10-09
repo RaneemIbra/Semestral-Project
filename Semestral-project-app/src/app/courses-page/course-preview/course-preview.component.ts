@@ -19,11 +19,12 @@ import {
   getDownloadURL,
 } from '@angular/fire/storage';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-course-preview',
   standalone: true,
-  imports: [CourseComponent, CommonModule],
+  imports: [CourseComponent, CommonModule, FormsModule],
   templateUrl: './course-preview.component.html',
   styleUrl: './course-preview.component.css',
 })
@@ -33,6 +34,8 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
   private authStateSub!: Unsubscribe;
   private courseDataSub!: Subscription;
   selectedFile: File | null = null;
+  selectedDiv: 'firstDivFiles' | 'secondDivFiles' | null = null;
+  customFileName: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +61,12 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  cancelFileSelection() {
+    this.selectedFile = null;
+    this.customFileName = '';
+    this.selectedDiv = null;
   }
 
   async checkUserPermissions(userId: string) {
@@ -89,26 +98,43 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
       });
   }
 
-  editFirstDiv(event: any) {
+  onFileSelected(event: any, divField: 'firstDivFiles' | 'secondDivFiles') {
     this.selectedFile = event.target.files[0];
-    if (this.selectedFile && this.course) {
-      this.uploadFile(this.selectedFile, 'firstDivFiles');
-      this.adjustDivHeight('firstDivFiles');
-    }
+    this.selectedDiv = divField;
   }
 
-  editSecondDiv(event: any) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile && this.course) {
-      this.uploadFile(this.selectedFile, 'secondDivFiles');
-      this.adjustDivHeight('secondDivFiles');
-      console.log('what????');
+  async uploadFileWithCustomName(divField: 'firstDivFiles' | 'secondDivFiles') {
+    if (this.selectedFile && this.customFileName && this.course) {
+      const storageRef = ref(
+        this.storage,
+        `courseFiles/${this.course.courseId}/${this.selectedFile.name}`
+      );
+      await uploadBytes(storageRef, this.selectedFile);
+      const downloadUrl = await getDownloadURL(storageRef);
+
+      const fileEntry = {
+        url: downloadUrl,
+        displayName: this.customFileName, // Store the custom display name
+      };
+
+      const updatedFiles = [...(this.course[divField] || []), fileEntry];
+      const courseDocRef = doc(
+        this.firestore,
+        `courses/${this.course.courseId}`
+      );
+      await updateDoc(courseDocRef, { [divField]: updatedFiles });
+
+      // Clear selected file and custom name
+      this.selectedFile = null;
+      this.customFileName = '';
+      this.selectedDiv = null;
+
+      this.loadCourse(this.course.courseId);
     }
   }
 
   adjustDivHeight(divField: 'firstDivFiles' | 'secondDivFiles') {
     const filesCount = this.course?.[divField]?.length || 0;
-
     const minHeight = 30;
     const heightPerFile = 5;
 
@@ -129,24 +155,6 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
       console.log(`New height for ${divField}: ${newHeight}vh`);
     } else {
       console.warn(`Container not found for ${divField}`);
-    }
-  }
-
-  async uploadFile(file: File, divField: 'firstDivFiles' | 'secondDivFiles') {
-    if (this.course) {
-      const storageRef = ref(
-        this.storage,
-        `courseFiles/${this.course.courseId}/${file.name}`
-      );
-      await uploadBytes(storageRef, file);
-      const downloadUrl = await getDownloadURL(storageRef);
-      const courseDocRef = doc(
-        this.firestore,
-        `courses/${this.course.courseId}`
-      );
-      const updatedFiles = [...(this.course[divField] || []), downloadUrl];
-      await updateDoc(courseDocRef, { [divField]: updatedFiles });
-      this.loadCourse(this.course.courseId);
     }
   }
 
@@ -187,11 +195,13 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
           this.storage,
           `courseFiles/${this.course.courseId}/${fileName}`
         );
+
         await deleteObject(storageRef);
 
         const updatedFiles = (this.course[divField] || []).filter(
-          (file: string) => file !== fileUrl
+          (file: { url: string; displayName: string }) => file.url !== fileUrl
         );
+
         const courseDocRef = doc(
           this.firestore,
           `courses/${this.course.courseId}`
