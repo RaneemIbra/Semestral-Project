@@ -89,6 +89,8 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
       .then((docSnap) => {
         if (docSnap.exists()) {
           this.course = docSnap.data() as Course;
+          this.adjustDivHeight('firstDivFiles');
+          this.adjustDivHeight('secondDivFiles');
         } else {
           console.error('Course not found');
         }
@@ -114,7 +116,7 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
 
       const fileEntry = {
         url: downloadUrl,
-        displayName: this.customFileName, // Store the custom display name
+        displayName: this.customFileName,
       };
 
       const updatedFiles = [...(this.course[divField] || []), fileEntry];
@@ -124,10 +126,10 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
       );
       await updateDoc(courseDocRef, { [divField]: updatedFiles });
 
-      // Clear selected file and custom name
       this.selectedFile = null;
       this.customFileName = '';
       this.selectedDiv = null;
+      this.adjustDivHeight(divField);
 
       this.loadCourse(this.course.courseId);
     }
@@ -183,20 +185,7 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
   ) {
     if (this.course && this.course.courseId) {
       try {
-        const decodedUrl = decodeURIComponent(fileUrl);
-        const fileName = decodedUrl.split('/').pop()?.split('?').shift();
-
-        if (!fileName) {
-          console.error('Unable to extract file name from URL');
-          return;
-        }
-
-        const storageRef = ref(
-          this.storage,
-          `courseFiles/${this.course.courseId}/${fileName}`
-        );
-
-        await deleteObject(storageRef);
+        console.log('File URL to delete:', fileUrl);
 
         const updatedFiles = (this.course[divField] || []).filter(
           (file: { url: string; displayName: string }) => file.url !== fileUrl
@@ -212,9 +201,17 @@ export class CoursePreviewComponent implements OnInit, OnDestroy {
 
         this.adjustDivHeight(divField);
 
-        console.log('File successfully deleted and height adjusted.');
+        console.log(
+          'File reference successfully deleted from Firestore and height adjusted.'
+        );
       } catch (error) {
-        console.error('Error deleting file:', error);
+        if (error instanceof Error) {
+          console.error('Error deleting file reference:', error.message);
+        } else {
+          console.error(
+            'An unknown error occurred while deleting the file reference.'
+          );
+        }
       }
     }
   }

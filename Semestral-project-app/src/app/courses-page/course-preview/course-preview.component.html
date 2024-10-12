@@ -8,7 +8,6 @@
     <h1 class="course-title">{{ course?.title }}</h1>
 
     <div class="stacked-divs">
-      <!-- Syllabus Section -->
       <div class="custom-div">
         <h1>Course Information</h1>
 
@@ -27,7 +26,6 @@
           *ngIf="userCanEdit"
         />
 
-        <!-- Input for custom name -->
         <div
           *ngIf="selectedFile && selectedDiv === 'firstDivFiles'"
           class="file-name-section"
@@ -72,7 +70,6 @@
         </div>
       </div>
 
-      <!-- Course Material Section -->
       <div class="custom-div">
         <h1>Course Material</h1>
 
@@ -91,7 +88,6 @@
           *ngIf="userCanEdit"
         />
 
-        <!-- Input for custom name -->
         <div
           *ngIf="selectedFile && selectedDiv === 'secondDivFiles'"
           class="file-name-section"
@@ -113,7 +109,6 @@
             >
               Upload File
             </button>
-            <!-- New Cancel Button -->
             <button class="cancel-btn" (click)="cancelFileSelection()">
               Cancel
             </button>
