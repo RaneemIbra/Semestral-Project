@@ -9,6 +9,7 @@
   justify-content: flex-start;
   padding-top: 13vh;
   background: url("../../assets/8406764.gif");
+  background-attachment: fixed;
 }
 
 .header {
