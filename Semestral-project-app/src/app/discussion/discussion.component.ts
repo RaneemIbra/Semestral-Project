@@ -10,6 +10,8 @@ import {
   collection,
   getDocs,
   addDoc,
+  query,
+  where,
   collectionData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -48,14 +50,31 @@ export class DiscussionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((communityName) => {
       if (communityName) {
-        this.communities.push({
-          title: communityName,
-          icon: 'fa-new-icon',
-        });
+        this.checkIfCommunityExists(communityName).then((exists) => {
+          if (exists) {
+            alert(
+              'A community with this name already exists. Please choose a different name.'
+            );
+          } else {
+            this.communities.push({
+              title: communityName,
+              icon: 'fa-new-icon',
+            });
 
-        this.addCommunityToFirestore(communityName);
+            this.addCommunityToFirestore(communityName);
+          }
+        });
       }
     });
+  }
+
+  async checkIfCommunityExists(communityName: string): Promise<boolean> {
+    const communityCollection = collection(this.firestore, 'communities');
+    const q = query(communityCollection, where('title', '==', communityName));
+
+    const querySnapshot = await getDocs(q);
+
+    return !querySnapshot.empty;
   }
 
   loadCommunities(): void {
