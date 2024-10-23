@@ -1,11 +1,24 @@
-<h2 mat-dialog-title>Enter Community Name</h2>
-<div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>Community Name</mat-label>
-    <input matInput [(ngModel)]="communityName" />
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button (click)="onConfirm()" cdkFocusInitial>Confirm</button>
+<div class="dialog-background">
+  <h2 mat-dialog-title>Enter Community Name</h2>
+
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Community Name</mat-label>
+      <input matInput [(ngModel)]="communityName" />
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()" class="dialog-btn cancel-btn">
+      Cancel
+    </button>
+    <button
+      mat-button
+      (click)="onConfirm()"
+      class="dialog-btn confirm-btn"
+      cdkFocusInitial
+    >
+      Confirm
+    </button>
+  </div>
 </div>

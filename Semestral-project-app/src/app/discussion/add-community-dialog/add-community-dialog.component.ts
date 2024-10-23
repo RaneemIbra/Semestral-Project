@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,21 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     FormsModule,
   ],
-  template: `
-    <h2 mat-dialog-title>Enter Community Name</h2>
-    <div mat-dialog-content>
-      <mat-form-field>
-        <mat-label>Community Name</mat-label>
-        <input matInput [(ngModel)]="communityName" />
-      </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-button [mat-dialog-close]="communityName" cdkFocusInitial>
-        Confirm
-      </button>
-    </div>
-  `,
+  templateUrl: './add-community-dialog.component.html',
+  styleUrls: ['./add-community-dialog.component.css'],
 })
 export class AddCommunityDialogComponent {
   communityName: string = '';
@@ -40,7 +27,6 @@ export class AddCommunityDialogComponent {
   constructor(public dialogRef: MatDialogRef<AddCommunityDialogComponent>) {}
 
   onCancel(): void {
-    //test
     this.dialogRef.close();
   }
 

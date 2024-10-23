@@ -1,0 +1,67 @@
+/* Title styling consistent with the first dialog */
+mat-dialog-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Dialog content background and input field */
+mat-dialog-content {
+  background-color: #fa1e4e !important;
+  color: white;
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+}
+
+/* Input field appearance */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mat-input-element {
+  background-color: white;
+  color: black;
+  border-bottom-color: grey !important;
+}
+
+.mat-label {
+  color: grey !important;
+}
+
+/* Custom buttons styling */
+.dialog-btn {
+  background-color: white;
+  color: #fa1e4e;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.dialog-btn:hover {
+  background-color: #f7b8b8 !important;
+}
+
+/* Specific button styles for cancel and confirm */
+.cancel-btn {
+  background-color: white;
+}
+
+.confirm-btn {
+  background-color: white;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: #d41d45;
+}
+
+/* Dialog background */
+.dialog-background {
+  background-color: #fa1e4e;
+  color: white;
+}
