@@ -7,7 +7,7 @@
 
   <div class="contact-form">
     <h2>Send Us a Message</h2>
-    <form action="/submit-form" method="POST">
+    <form id="contactForm" action="javascript:void(0)" method="POST">
       <label for="name" class="form-text">Name:</label>
       <input type="text" id="name" name="name" required />
 
@@ -20,7 +20,7 @@
       <label for="message" class="form-text">Message:</label>
       <textarea id="message" name="message" rows="4" required></textarea>
 
-      <button type="submit">Submit</button>
+      <button type="submit" id="submitBtn">Submit</button>
     </form>
   </div>
   <h3 style="color: white; margin-bottom: 2vh">
@@ -43,6 +43,6 @@
       ><i class="fa-brands fa-instagram"></i
     ></a>
   </div>
-  <h3 style="color: white; margin-top: 1vh">For business inquires:</h3>
+  <h3 style="color: white; margin-top: 1vh">For business inquiries:</h3>
   <a style="color: white; margin-top: 1vh">R_contactUs&#64;gmail.com</a>
 </div>
