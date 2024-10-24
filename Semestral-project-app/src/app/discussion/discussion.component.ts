@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { DiscussionBoxComponent } from './discussion-box/discussion-box.component';
 import { CommonModule } from '@angular/common';
 import { AddCommunityDialogComponent } from './add-community-dialog/add-community-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
 import {
   Firestore,
   collection,
   getDocs,
   addDoc,
+  doc,
+  getDoc,
   query,
+  Unsubscribe,
   where,
   collectionData,
 } from '@angular/fire/firestore';
@@ -30,15 +34,47 @@ import { Observable } from 'rxjs';
 })
 export class DiscussionComponent implements OnInit {
   communities: { title: string; icon: string }[] = [];
+  userCanEdit: boolean = false;
+  private authStateSub!: Unsubscribe;
 
   constructor(
     private router: Router,
     private dialog: MatDialog,
+    private auth: Auth,
     private firestore: Firestore
   ) {}
 
   ngOnInit(): void {
     this.loadCommunities();
+
+    this.authStateSub = onAuthStateChanged(this.auth, (user: User | null) => {
+      if (user) {
+        this.checkUserPermissions(user.uid);
+      } else {
+        this.userCanEdit = false;
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  async checkUserPermissions(userId: string) {
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`);
+      const userSnapshot = await getDoc(userDocRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        this.userCanEdit = userData['modify'] || false;
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.authStateSub) {
+      this.authStateSub();
+    }
   }
 
   navigateToPreview(title: string): void {

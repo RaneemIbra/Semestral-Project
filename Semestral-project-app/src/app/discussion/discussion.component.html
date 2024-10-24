@@ -2,8 +2,11 @@
   <h1 class="title">Discussion Communities</h1>
 
   <div class="header-actions">
-    <!-- Add Community button moved to right side of the page -->
-    <button (click)="openAddCommunityDialog()" class="add-community-button">
+    <button
+      (click)="openAddCommunityDialog()"
+      class="add-community-button"
+      *ngIf="userCanEdit"
+    >
       Add Community
     </button>
   </div>
