@@ -14,6 +14,9 @@
 
   <div mat-dialog-content *ngIf="data.mode === 'view'">
     <p>{{ data.text }}</p>
+    <p *ngIf="data.userName">
+      <em>Added by: {{ data.userName }}</em>
+    </p>
   </div>
 
   <div mat-dialog-actions>

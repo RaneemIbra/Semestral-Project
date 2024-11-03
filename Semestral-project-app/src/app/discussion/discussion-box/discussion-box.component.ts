@@ -7,10 +7,12 @@ import {
   doc,
   setDoc,
   addDoc,
+  getDoc,
   deleteDoc,
 } from '@angular/fire/firestore';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-discussion-box',
@@ -23,12 +25,14 @@ export class DiscussionBoxComponent implements OnInit {
   @Input() title: string = '';
   @Input() userId: string | null = null;
   @Input() isProfileMode: boolean = false;
+  userName: string = '';
   divs: {
     left: number;
     top: number;
     id: string;
     divTitle: string;
     text?: string;
+    creatorName: string;
   }[] = [];
   activeDivId: string | null = null;
 
@@ -37,13 +41,26 @@ export class DiscussionBoxComponent implements OnInit {
     toDivId: string;
   }[] = [];
 
-  constructor(private firestore: Firestore, private dialog: MatDialog) {}
+  constructor(
+    private firestore: Firestore,
+    private auth: Auth,
+    private dialog: MatDialog
+  ) {}
 
-  ngOnInit(): void {
-    if (this.isProfileMode && this.userId) {
-      this.loadUserDetectiveBoard(this.userId);
+  async ngOnInit(): Promise<void> {
+    const authUser = this.auth.currentUser;
+    if (authUser) {
+      this.userId = authUser.uid;
+      console.log('User ID:', this.userId);
+      await this.getUserInfo(this.userId);
+
+      if (this.isProfileMode && this.userId) {
+        this.loadUserDetectiveBoard(this.userId);
+      } else {
+        this.loadDiscussionBox(this.title);
+      }
     } else {
-      this.loadDiscussionBox(this.title);
+      console.log('No authenticated user found.');
     }
   }
 
@@ -80,6 +97,7 @@ export class DiscussionBoxComponent implements OnInit {
             top: number;
             divTitle: string;
             text: string;
+            creatorName: string;
           };
           return {
             left: data.left,
@@ -87,6 +105,7 @@ export class DiscussionBoxComponent implements OnInit {
             id: doc.id,
             divTitle: data.divTitle || '',
             text: data.text || '',
+            creatorName: data.creatorName || 'Unknown',
           };
         });
 
@@ -140,6 +159,7 @@ export class DiscussionBoxComponent implements OnInit {
             top: number;
             divTitle: string;
             text: string;
+            creatorName: string;
           };
           return {
             left: data.left,
@@ -147,6 +167,7 @@ export class DiscussionBoxComponent implements OnInit {
             id: doc.id,
             divTitle: data.divTitle || '',
             text: data.text || '',
+            creatorName: data.creatorName || 'Unknown',
           };
         });
 
@@ -187,7 +208,8 @@ export class DiscussionBoxComponent implements OnInit {
     left: number,
     top: number,
     divTitle: string,
-    text: string
+    text: string,
+    creatorName: string
   ): void {
     const collectionPath =
       this.isProfileMode && this.userId
@@ -196,7 +218,7 @@ export class DiscussionBoxComponent implements OnInit {
 
     const discussionBoxDoc = doc(this.firestore, `${collectionPath}/${divId}`);
 
-    setDoc(discussionBoxDoc, { left, top, divTitle, text })
+    setDoc(discussionBoxDoc, { left, top, divTitle, text, creatorName })
       .then(() => {
         console.log('Discussion box saved successfully!');
       })
@@ -300,13 +322,23 @@ export class DiscussionBoxComponent implements OnInit {
           div.left,
           div.top,
           div.divTitle || '',
-          div.text || ''
+          div.text || '',
+          div.creatorName
         );
       }
     }
   }
 
-  addDiv(): void {
+  async addDiv(): Promise<void> {
+    if (!this.userId) {
+      console.error('User ID is null. Cannot add div.');
+      return;
+    }
+
+    if (!this.userName) {
+      await this.getUserInfo(this.userId);
+    }
+
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '400px',
       data: {
@@ -325,6 +357,7 @@ export class DiscussionBoxComponent implements OnInit {
           id: (this.divs.length + 1).toString(),
           divTitle: result.divTitle,
           text: result.text,
+          creatorName: this.userName,
         };
 
         const collectionPath =
@@ -356,6 +389,7 @@ export class DiscussionBoxComponent implements OnInit {
           title: divData.divTitle || 'No title',
           text: divData.text,
           mode: 'view',
+          userName: divData.creatorName,
         },
         panelClass: 'custom-dialog-container',
       });
@@ -374,7 +408,8 @@ export class DiscussionBoxComponent implements OnInit {
             divData.left,
             divData.top,
             result.divTitle,
-            result.text
+            result.text,
+            result.userName
           );
         }
       });
@@ -394,12 +429,17 @@ export class DiscussionBoxComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.divTitle && result.text) {
+        const finalText = result.text.includes(`Added by: ${this.userName}`)
+          ? result.text
+          : `${result.text}\nAdded by: ${this.userName}`;
+
         const newDiv = {
           left: 5 * (window.innerWidth / 100),
           top: 0,
           id: (this.divs.length + 1).toString(),
           divTitle: result.divTitle,
-          text: result.text,
+          text: finalText,
+          creatorName: this.userName,
         };
 
         const collectionPath =
@@ -410,11 +450,8 @@ export class DiscussionBoxComponent implements OnInit {
         addDoc(collection(this.firestore, collectionPath), newDiv)
           .then((docRef) => {
             this.divs.push({ ...newDiv, id: docRef.id });
-
             this.arrows.push({ fromDivId, toDivId: docRef.id });
             this.drawArrows();
-
-            // Save the arrow to the database
             this.saveArrow(fromDivId, docRef.id);
           })
           .catch((error) => {
@@ -492,5 +529,30 @@ export class DiscussionBoxComponent implements OnInit {
       return div.top + (8 * window.innerHeight) / 100 / 2;
     }
     return 0;
+  }
+
+  async getUserInfo(userId: string | null): Promise<void> {
+    if (!userId) {
+      console.error('User ID is null. Cannot fetch user info.');
+      this.userName = 'Unknown';
+      return;
+    }
+
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`);
+      const userSnapshot = await getDoc(userDocRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        this.userName = userData['name'] || 'Unknown';
+        console.log('Fetched user name:', this.userName);
+      } else {
+        console.log('User not found');
+        this.userName = 'Unknown';
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      this.userName = 'Unknown';
+    }
   }
 }
