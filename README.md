@@ -35,4 +35,6 @@ The project is built using the following technologies:
 * Backend: Firebase Authentication, Firestore (Database), Firebase Storage
 * Version Control: Git and GitHub for managing codebase versions and collaboration
 ## Project Walkthrough
+Here’s a screenshot demonstrating the project:
 
+![Serve Image](src/assets/serve.png)
