@@ -429,9 +429,7 @@ export class DiscussionBoxComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.divTitle && result.text) {
-        const finalText = result.text.includes(`Added by: ${this.userName}`)
-          ? result.text
-          : `${result.text}\nAdded by: ${this.userName}`;
+        const finalText = result.text || `Added by: ${this.userName}`;
 
         const newDiv = {
           left: 5 * (window.innerWidth / 100),
