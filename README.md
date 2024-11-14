@@ -38,3 +38,13 @@ The project is built using the following technologies:
 Here’s a screenshot demonstrating the project:
 
 ![Serve Image](src/assets/serve.png)
+![Serve Image](src/assets/login_register.png)
+![Serve Image](src/assets/home.png)
+![Serve Image](src/assets/profile.png)
+![Serve Image](src/assets/faq.png)
+![Serve Image](src/assets/contact.png)
+![Serve Image](src/assets/communities.png)
+![Serve Image](src/assets/discussions.png)
+![Serve Image](src/assets/course_list.png)
+![Serve Image](src/assets/course.png)
+![Serve Image](src/assets/extra.png)
