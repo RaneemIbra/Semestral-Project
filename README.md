@@ -34,17 +34,62 @@ The project is built using the following technologies:
 * Frontend: HTML, CSS, TypeScript, Angular, JavaScript
 * Backend: Firebase Authentication, Firestore (Database), Firebase Storage
 * Version Control: Git and GitHub for managing codebase versions and collaboration
+
+## Installation and Setup
+To run the project locally, follow these steps:
+1. Clone the Repository:
+    git clone https://github.com/RaneemIbra/Semestral-Project.git
+
+2. Navigate to the Project Directory:
+    cd Semestral-Project
+
+3. Install Dependencies: Install necessary packages for Angular and Firebase:
+    npm install
+
+4. Configure Firebase:
+
+* Create a Firebase project at Firebase Console.
+* Enable Authentication, Firestore, and Storage in your Firebase project.
+* Copy your Firebase configuration and add it to your project in src/environments/environment.ts.
+
+5. Run the Application: Start the Angular development server:
+    ng serve
+
+6. Access the Project:
+    Open your browser and go to http://localhost:4200
+
 ## Project Walkthrough
-Here’s a screenshot demonstrating the project:
+
+Here’s a detailed walkthrough of the key pages and features of the Knowledge Forum platform:
 
 ![Serve Image](src/assets/serve.png)
+
+This page allows users to sign up for a new account or log in to an existing one, with Firebase Authentication handling user authentication securely.
 ![Serve Image](src/assets/login_register.png)
+
+The home page provides an overview of available communities, courses, and recent activity, helping users stay engaged and informed.
 ![Serve Image](src/assets/home.png)
+
+Users can view and edit their profile information here, including updating personal details and account settings.
 ![Serve Image](src/assets/profile.png)
+
+A dedicated FAQ page provides answers to commonly asked questions, helping users navigate the platform with ease.
 ![Serve Image](src/assets/faq.png)
+
+Users can reach out for support or questions through this form. When submitted, the support team receives a notification.
 ![Serve Image](src/assets/contact.png)
+
+This page lists all available communities on the platform. Users can join or leave communities and engage in discussions specific to each community.
 ![Serve Image](src/assets/communities.png)
+
+Each community has its own discussion room, where users can post messages, reply to others, and collaborate on topics of shared interest.
 ![Serve Image](src/assets/discussions.png)
+
+A list of available courses, each with detailed information and access to course materials. Users can enroll in courses to gain access to exclusive content.
 ![Serve Image](src/assets/course_list.png)
+
+The course page provides users with course-specific information, including lectures, assignments, and a dedicated discussion room.
 ![Serve Image](src/assets/course.png)
-![Serve Image](src/assets/extra.png)
+
+Additional features like logout or password reset.
+![Serve Image](src/assets/extras.png)
