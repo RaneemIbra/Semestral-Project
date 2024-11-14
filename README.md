@@ -60,36 +60,45 @@ To run the project locally, follow these steps:
 
 ## Project Walkthrough
 
-Here’s a detailed walkthrough of the key pages and features of the Knowledge Forum platform:
+### Here’s a detailed walkthrough of the key pages and features of the Knowledge Forum platform:
 
 ![Serve Image](src/assets/serve.png)
 
-This page allows users to sign up for a new account or log in to an existing one, with Firebase Authentication handling user authentication securely.
+### This page allows users to sign up for a new account or log in to an existing one, with Firebase Authentication handling user authentication securely.
+
 ![Serve Image](src/assets/login_register.png)
 
-The home page provides an overview of available communities, courses, and recent activity, helping users stay engaged and informed.
+### The home page provides an overview of available communities, courses, and recent activity, helping users stay engaged and informed.
+
 ![Serve Image](src/assets/home.png)
 
-Users can view and edit their profile information here, including updating personal details and account settings.
+### Users can view and edit their profile information here, including updating personal details and account settings.
+
 ![Serve Image](src/assets/profile.png)
 
-A dedicated FAQ page provides answers to commonly asked questions, helping users navigate the platform with ease.
+### A dedicated FAQ page provides answers to commonly asked questions, helping users navigate the platform with ease.
 ![Serve Image](src/assets/faq.png)
 
-Users can reach out for support or questions through this form. When submitted, the support team receives a notification.
+### Users can reach out for support or questions through this form. When submitted, the support team receives a notification.
+
 ![Serve Image](src/assets/contact.png)
 
-This page lists all available communities on the platform. Users can join or leave communities and engage in discussions specific to each community.
+### This page lists all available communities on the platform. Users can join or leave communities and engage in discussions specific to each community.
+
 ![Serve Image](src/assets/communities.png)
 
-Each community has its own discussion room, where users can post messages, reply to others, and collaborate on topics of shared interest.
+### Each community has its own discussion room, where users can post messages, reply to others, and collaborate on topics of shared interest.
+
 ![Serve Image](src/assets/discussions.png)
 
-A list of available courses, each with detailed information and access to course materials. Users can enroll in courses to gain access to exclusive content.
+### A list of available courses, each with detailed information and access to course materials. Users can enroll in courses to gain access to exclusive content.
+
 ![Serve Image](src/assets/course_list.png)
 
-The course page provides users with course-specific information, including lectures, assignments, and a dedicated discussion room.
+### The course page provides users with course-specific information, including lectures, assignments, and a dedicated discussion room.
+
 ![Serve Image](src/assets/course.png)
 
-Additional features like logout or password reset.
+### Additional features like logout or password reset.
+
 ![Serve Image](src/assets/extras.png)
