@@ -32,6 +32,7 @@ export class DiscussionBoxComponent implements OnInit {
     id: string;
     divTitle: string;
     text?: string;
+    creatorId: string;
     creatorName: string;
   }[] = [];
   activeDivId: string | null = null;
@@ -97,6 +98,7 @@ export class DiscussionBoxComponent implements OnInit {
             top: number;
             divTitle: string;
             text: string;
+            creatorId: string;
             creatorName: string;
           };
           return {
@@ -105,6 +107,7 @@ export class DiscussionBoxComponent implements OnInit {
             id: doc.id,
             divTitle: data.divTitle || '',
             text: data.text || '',
+            creatorId: data.creatorId,
             creatorName: data.creatorName || 'Unknown',
           };
         });
@@ -159,6 +162,7 @@ export class DiscussionBoxComponent implements OnInit {
             top: number;
             divTitle: string;
             text: string;
+            creatorId: string;
             creatorName: string;
           };
           return {
@@ -167,6 +171,7 @@ export class DiscussionBoxComponent implements OnInit {
             id: doc.id,
             divTitle: data.divTitle || '',
             text: data.text || '',
+            creatorId: data.creatorId,
             creatorName: data.creatorName || 'Unknown',
           };
         });
@@ -357,6 +362,7 @@ export class DiscussionBoxComponent implements OnInit {
           id: (this.divs.length + 1).toString(),
           divTitle: result.divTitle,
           text: result.text,
+          creatorId: this.userId || '',
           creatorName: this.userName,
         };
 
@@ -382,6 +388,7 @@ export class DiscussionBoxComponent implements OnInit {
     const divIndex = this.divs.findIndex((div) => div.id === divId);
     if (divIndex >= 0) {
       const divData = this.divs[divIndex];
+      const isOwner = this.userId === divData.creatorId;
 
       const dialogRef = this.dialog.open(DialogComponent, {
         width: '400px',
@@ -390,12 +397,13 @@ export class DiscussionBoxComponent implements OnInit {
           text: divData.text,
           mode: 'view',
           userName: divData.creatorName,
+          isOwner: isOwner,
         },
         panelClass: 'custom-dialog-container',
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        if (result?.delete) {
+        if (result?.delete && isOwner) {
           this.deleteDiv(divId, divIndex);
         } else if (result?.buildOn) {
           this.openAddDivDialogWithArrow(divId);
@@ -437,6 +445,7 @@ export class DiscussionBoxComponent implements OnInit {
           id: (this.divs.length + 1).toString(),
           divTitle: result.divTitle,
           text: finalText,
+          creatorId: this.userId || '',
           creatorName: this.userName,
         };
 

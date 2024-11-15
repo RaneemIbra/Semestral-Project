@@ -25,7 +25,7 @@
     <button
       mat-button
       class="dialog-btn"
-      *ngIf="data.mode === 'view'"
+      *ngIf="data.isOwner"
       (click)="onDeleteClick()"
     >
       Delete

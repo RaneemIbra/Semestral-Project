@@ -32,6 +32,7 @@ export class DialogComponent {
       text: string;
       mode: string;
       userName?: string;
+      isOwner?: boolean;
     }
   ) {}
 
