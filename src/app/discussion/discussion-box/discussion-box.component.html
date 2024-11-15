@@ -6,10 +6,10 @@
   <svg class="arrow-canvas" width="100%" height="100%">
     <line
       *ngFor="let arrow of arrows"
-      [attr.x1]="getDivCenterX(arrow.fromDivId)"
-      [attr.y1]="getDivCenterY(arrow.fromDivId)"
-      [attr.x2]="getDivCenterX(arrow.toDivId)"
-      [attr.y2]="getDivCenterY(arrow.toDivId)"
+      [attr.x1]="getDivBorderPoint(arrow.fromDivId, arrow.toDivId).x"
+      [attr.y1]="getDivBorderPoint(arrow.fromDivId, arrow.toDivId).y"
+      [attr.x2]="getDivBorderPoint(arrow.toDivId, arrow.fromDivId).x"
+      [attr.y2]="getDivBorderPoint(arrow.toDivId, arrow.fromDivId).y"
       stroke="white"
       stroke-width="2"
       marker-end="url(#arrowhead)"
@@ -23,7 +23,7 @@
         refY="3.5"
         orient="auto"
       >
-        <polygon points="0 0, 10 3.5, 0 7" />
+        <polygon points="0 0, 10 3.5, 0 7" fill="white" />
       </marker>
     </defs>
   </svg>

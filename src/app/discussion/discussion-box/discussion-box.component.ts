@@ -416,7 +416,7 @@ export class DiscussionBoxComponent implements OnInit {
     }
   }
 
-  openAddDivDialogWithArrow(fromDivId: string): void {
+  openAddDivDialogWithArrow(toDivId: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '400px',
       data: {
@@ -448,9 +448,9 @@ export class DiscussionBoxComponent implements OnInit {
         addDoc(collection(this.firestore, collectionPath), newDiv)
           .then((docRef) => {
             this.divs.push({ ...newDiv, id: docRef.id });
-            this.arrows.push({ fromDivId, toDivId: docRef.id });
+            this.arrows.push({ fromDivId: docRef.id, toDivId: toDivId });
             this.drawArrows();
-            this.saveArrow(fromDivId, docRef.id);
+            this.saveArrow(docRef.id, toDivId);
           })
           .catch((error) => {
             console.error('Error adding div: ', error);
@@ -513,20 +513,31 @@ export class DiscussionBoxComponent implements OnInit {
       });
   }
 
-  getDivCenterX(divId: string): number {
+  getDivCenter(divId: string) {
     const div = this.divs.find((d) => d.id === divId);
     if (div) {
-      return div.left + (6 * window.innerWidth) / 100 / 2;
+      const centerX = div.left + (6 * window.innerWidth) / 100 / 2;
+      const centerY = div.top + (8 * window.innerHeight) / 100 / 2;
+      return { x: centerX, y: centerY };
     }
-    return 0;
+    return { x: 0, y: 0 };
   }
 
-  getDivCenterY(divId: string): number {
-    const div = this.divs.find((d) => d.id === divId);
-    if (div) {
-      return div.top + (8 * window.innerHeight) / 100 / 2;
-    }
-    return 0;
+  getDivBorderPoint(divId: string, targetDivId: string, padding: number = 10) {
+    const divCenter = this.getDivCenter(divId);
+    const targetCenter = this.getDivCenter(targetDivId);
+
+    const dx = targetCenter.x - divCenter.x;
+    const dy = targetCenter.y - divCenter.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    const offsetX = (6 * window.innerWidth) / 100 / 2 + padding;
+    const offsetY = (8 * window.innerHeight) / 100 / 2 + padding;
+
+    const edgeX = divCenter.x + (dx / distance) * offsetX;
+    const edgeY = divCenter.y + (dy / distance) * offsetY;
+
+    return { x: edgeX, y: edgeY };
   }
 
   async getUserInfo(userId: string | null): Promise<void> {
